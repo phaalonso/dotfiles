@@ -25,5 +25,6 @@ git clone https://github.com/phaalonso/dotfiles.git
 ln -s ~/.dotfiles/.zshrc ~/.zshrc
 ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/init.vim ~/.config/nvim/init.vim
+ln -s ~/.dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 ```
 
