@@ -1,0 +1,6 @@
+[filesystem "AdoptOpenJDK|11.0.9.1|/dev/sda6"]
+	timestampResolution = 10000 nanoseconds
+	minRacyThreshold = 6035 microseconds
+[user]
+	email = 26033899+phaalonso@users.noreply.github.com
+	name = phaalonso
