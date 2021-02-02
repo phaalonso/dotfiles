@@ -14,9 +14,9 @@ sudo apt-get install git
 
 ```bash
 # Use SSH (if set up)...
-git clone git@github.com:phaalonso/dotfiles.git
+git clone git@github.com:phaalonso/dotfiles.git ~/.dotfiles
 # If not, use gitub url
-git clone https://github.com/phaalonso/dotfiles.git
+git clone https://github.com/phaalonso/dotfiles.git ~/.dotfiles
 ```
 
 3. Create symlinks in the Home directory to the real files in the repo (remenber to change .gitconfig user and email)
