@@ -65,6 +65,10 @@ Plug 'majutsushi/tagbar'
 
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 
 let g:gitgutter_sign_added = '▌'

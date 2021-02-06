@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+#export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/pedro/.oh-my-zsh"
@@ -138,5 +138,13 @@ export SDKMAN_DIR="/home/pedro/.sdkman"
 
 export PATH=$PATH:/usr/local/go/bin
 source /home/pedro/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 alias live-dl='/home/pedro/programacao/live-dl/live-dl'
 alias ngrok='~/ngrok'
+alias faculdade='cd ~/programacao/faculdade'
+export CLASSPATH=".:/usr/local/lib/antlr-4.9.1-complete.jar:$CLASSPATH"
+alias antlr4='java -jar /usr/local/lib/antlr-4.9.1-complete.jar'
+alias grun='java org.antlr.v4.gui.TestRig'
+alias la="exa -la"
+alias l="exa -la"
+eval "$(zoxide init zsh)"
