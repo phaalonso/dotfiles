@@ -1,4 +1,4 @@
-" ___ _   _ ___ _______     _____ __  __ 
+	" ___ _   _ ___ _______     _____ __  __ 
 "|_ _| \ | |_ _|_   _\ \   / /_ _|  \/  |
 " | ||  \| || |  | |  \ \ / / | || |\/| |
 " | || |\  || |  | |_  \ V /  | || |  | |
@@ -15,9 +15,9 @@ call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline-themes'
 
-Plug 'dracula/vim', { 'as': 'dracula' }
+"Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -44,7 +44,7 @@ Plug 'junegunn/gv.vim', { 'on': 'GV' }
 " NerdTree plugins
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-"Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'airblade/vim-gitgutter'
@@ -105,7 +105,7 @@ let g:coc_global_extensions = [
 \   'coc-markdownlint',
 \   'coc-java',
 "\   'coc-discord-neovim',
-\   'coc-eslint',
+"\   'coc-eslint',
 "\   'coc-phpactor',
 \	'coc-rls',
 \	'coc-prettier'
@@ -119,7 +119,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nmap <leader>a <Plug>(coc-codeaction)
+nmap <leader>a <Plug>(coc-action)
 
 " Show documentation of iten in cursor position
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -173,7 +173,8 @@ if has('mouse')
 endif
 
 " Set <C-p> in normal mode to open FZF
-noremap <C-p> :FZF <CR>
+"noremap <C-p> :FZF <CR>
+nnoremap <C-p> <cmd>Telescope find_files<cr>
 
 " Desativa setas do teclado
 noremap <Up> <Nop>
@@ -203,7 +204,7 @@ syntax on
 set termguicolors
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'dracula'
+let g:airline_theme = 'nord'
 let g:airline_detect_whitespace=0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -226,6 +227,7 @@ nnoremap <silent> <A-.> :BufferNext<CR>
 " Close buffer
 nnoremap <silent> <A-c> :BufferClose<CR>
 
+tnoremap <Esc> <C-\><C-n>
 " Transparency
 "au ColorScheme * hi Normal ctermbg=none guibg=none
 "au ColorScheme myspecialcolors hi Normal ctermbg=blue guibg=blue
