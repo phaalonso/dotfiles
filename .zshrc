@@ -74,6 +74,7 @@ plugins=(
    fzf
 #   vi-mode
    sudo
+   zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -137,7 +138,7 @@ export SDKMAN_DIR="/home/pedro/.sdkman"
 [[ -s "/home/pedro/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pedro/.sdkman/bin/sdkman-init.sh"
 
 export PATH=$PATH:/usr/local/go/bin
-source /home/pedro/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export PATH=$PATH:/home/pedro/.cargo/bin
 
 alias live-dl='/home/pedro/programacao/live-dl/live-dl'
 alias ngrok='~/ngrok'

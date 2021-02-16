@@ -19,6 +19,8 @@ Plug 'vim-airline/vim-airline'
 
 "Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'arcticicestudio/nord-vim'
+Plug 'ayu-theme/ayu-vim' " or other package manager
+Plug 'sainnhe/sonokai'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -88,7 +90,6 @@ let g:gitgutter_async=0
 let g:coc_global_extensions = [
 \   'coc-actions',
 \   'coc-angular',
-\	'coc-bookmark',
 \	'coc-db',
 \   'coc-snippets',
 \   'coc-lists',
@@ -204,7 +205,6 @@ syntax on
 set termguicolors
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'nord'
 let g:airline_detect_whitespace=0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -244,7 +244,14 @@ tnoremap <Esc> <C-\><C-n>
 	"\ kite#completion#autocomplete()
 
 "Themes
-colorscheme	nord 
+
+" Nord
+"colorscheme	nord 
+"let g:airline_theme = 'nord'
+
+" Sonokai
+colorscheme sonokai
+let g:airline_theme='sonokai'
 "colorscheme pure_material
 "colorscheme palenight
 "colorscheme minimalist
@@ -254,6 +261,18 @@ colorscheme	nord
 "let g:gruvbox_contrast_dark = 'dark'
 "let g:gruvbox_invert_selection = '0'
 
+"AYU
+"colorscheme ayu
+"let ayucolor="light"  " for light version of theme
+let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+
+" IndentLine {{
+let g:indentLine_char = ''
+let g:indentLine_first_char = ''
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 0
+" }}
 
 "Clipboar yank config
 vmap Y "+y
