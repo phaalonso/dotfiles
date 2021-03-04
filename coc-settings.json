@@ -9,6 +9,7 @@
     "javascript": "javascriptreact"
   },
   "eslint.onIgnoredFiles": ["warn", "off"],
+  "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
   "languageserver": {
     "ccls": {
       "command": "ccls",

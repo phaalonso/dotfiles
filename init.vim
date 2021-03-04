@@ -1,4 +1,4 @@
-	" ___ _   _ ___ _______     _____ __  __ 
+" ___ _   _ ___ _______     _____ __  __ 
 "|_ _| \ | |_ _|_   _\ \   / /_ _|  \/  |
 " | ||  \| || |  | |  \ \ / / | || |\/| |
 " | || |\  || |  | |_  \ V /  | || |  | |
@@ -22,10 +22,12 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'ayu-theme/ayu-vim' " or other package manager
 Plug 'sainnhe/sonokai'
 
+"Plug 'jparise/vim-graphql'
+"Plug 'elixir-editors/vim-elixir'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim' 
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
@@ -88,7 +90,6 @@ let g:gitgutter_async=0
 " Coc configuration ---------------------------
 
 let g:coc_global_extensions = [
-\   'coc-actions',
 \   'coc-angular',
 \	'coc-db',
 \   'coc-snippets',
@@ -106,9 +107,10 @@ let g:coc_global_extensions = [
 \   'coc-markdownlint',
 \   'coc-java',
 "\   'coc-discord-neovim',
+"\	 'coc-elixir',
 "\   'coc-eslint',
 "\   'coc-phpactor',
-\	'coc-rls',
+"\	'coc-rls',
 \	'coc-prettier'
 \ ]
 
@@ -120,7 +122,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nmap <leader>a <Plug>(coc-action)
+nmap <silent> <C-a> :CocAction<CR>
 
 " Show documentation of iten in cursor position
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -152,26 +154,17 @@ nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<C
 inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
 
 "Vim-fugitive
+nmap <silent> <leader>gs :Git<CR>
 nmap <leader>gh :diffget //3<CR>
 nmap <leader>gj :diffget //2<CR>
 nmap <leader>gf :G<CR>
 
 " <C-n> in normal mode open NerdTree :)
-nmap <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeGitStatusWithFlags = 1
-let g:NERDTreeIgnore = ['^node_modules$']
 
 " Set fzf layout screen
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
 set re=0
-
-" Use mouse to select and resize windows, etc.
-if has('mouse')
-    set mouse=nv  " Enable mouse in several mode
-    set mousemodel=popup  " Set the behaviour of mouse
-	let NERDTreeMouseMode=3
-endif
 
 " Set <C-p> in normal mode to open FZF
 "noremap <C-p> :FZF <CR>
@@ -210,9 +203,19 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
 
 " NerdTree
-let NERDTreeQuitOnOpen = 1
+nmap <C-n> :NERDTreeToggle<CR>
+let NERDTreeQuitOnOpen = 0
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeDirArrows = 1
+let g:NERDTreeGitStatusWithFlags = 1
+let g:NERDTreeIgnore = ['^node_modules$']
+" Use mouse to select and resize windows, etc.
+if has('mouse')
+    set mouse=nv  " Enable mouse in several mode
+    set mousemodel=popup  " Set the behaviour of mouse
+	let NERDTreeMouseMode=3
+endif
+
 
 let g:VM_maps = {}
 let g:VM_maps['Find Under']         = '<C-d>'   " replace C-n
@@ -264,7 +267,7 @@ let g:airline_theme='sonokai'
 "AYU
 "colorscheme ayu
 "let ayucolor="light"  " for light version of theme
-let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="mirage" " for mirage version of theme
 "let ayucolor="dark"   " for dark version of theme
 
 " IndentLine {{
@@ -282,6 +285,41 @@ vmap P "+p
 
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+nnoremap   <silent>   <F7>    :FloatermNew<CR>
+tnoremap   <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
+nnoremap   <silent>   <F12>   :FloatermToggle<CR>
+tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+
 "Configure arquivos .ino e .pde para serem identificados como C++
 au BufRead,BufNewFile *.ino,*.pde set filetype=cpp
 command! Config execute ":e ~/.config/nvim/init.vim"
+
+autocmd FileType elixir setlocal formatprg=mix\ format\ -
+
+lua << EOF
+local actions = require('telescope.actions')
+require('telescope').setup {
+  defaults = {
+	 vimgrep_arguments = {
+      'rg',
+      '--color=never',
+      '--no-heading',
+      '--with-filename',
+      '--line-number',
+      '--column',
+      '--smart-case'
+    },
+	file_sorter = require'telescope.sorters'.get_fuzzy_file,
+	file_ignore_patterns = {
+		"node_modules",
+		"deps",
+		"build",
+		"_build",
+		"dist"
+	},
+    file_sorter = require('telescope.sorters').get_fzy_sorter,
+    prompt_prefix = ' >',
+    color_devicons = true,
+  }
+}
+EOF
