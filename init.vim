@@ -89,7 +89,7 @@ let g:gitgutter_async=0
 
 " Coc configuration ---------------------------
 
-let g:coc_global_extensions = [
+let g:coc_global_extensions = [ \
 \   'coc-angular',
 \	'coc-db',
 \   'coc-snippets',
@@ -111,8 +111,8 @@ let g:coc_global_extensions = [
 "\   'coc-eslint',
 "\   'coc-phpactor',
 "\	'coc-rls',
-\	'coc-prettier'
-\ ]
+\	'coc-prettier',
+\	'coc-json']
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
@@ -122,6 +122,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+nmap <leader>qf  <Plug>(coc-fix-current)
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 nmap <silent> <C-a> :CocAction<CR>
 
 " Show documentation of iten in cursor position
@@ -142,7 +144,6 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-nmap <leader>qf  <Plug>(coc-fix-current)
 
 function! s:cocActionsOpenFromSelected(type) abort
   execute 'CocCommand actions.open ' . a:type
@@ -175,11 +176,6 @@ noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
-
-"Font utilizada por interfaces GUI
-set guifont=Fira\ Code\ Nerd\ Regular:h12
-"set guicursor+=a:blinkon333
-"set guicursor=
 
 "Odem de abertura da divisão de tela
 set splitbelow splitright
