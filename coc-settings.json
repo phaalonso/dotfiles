@@ -1,14 +1,8 @@
 {
-  "eslint.filetypes": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
   },
-  "eslint.onIgnoredFiles": ["warn", "off"],
+  "python.linting.pylintArgs": ["--generate-members"],
   "elixir.pathToElixirLS": "~/.elixir-ls/release/language_server.sh",
   "languageserver": {
     "ccls": {

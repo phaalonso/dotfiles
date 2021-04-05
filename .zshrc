@@ -75,6 +75,8 @@ plugins=(
 #   vi-mode
    sudo
    zsh-syntax-highlighting
+   docker
+   docker-compose
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -133,12 +135,16 @@ ex ()
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export JAVAHOME="/home/pedro/.sdkman/candidates/java/8.0.275.hs-adpt/bin/java"
+export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
 export SDKMAN_DIR="/home/pedro/.sdkman"
 [[ -s "/home/pedro/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pedro/.sdkman/bin/sdkman-init.sh"
 
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/pedro/go/bin
 export PATH=$PATH:/home/pedro/.cargo/bin
+export PATH=$PATH:/home/pedro/programacao/flutter/bin
+
+export CHROME_EXECUTABLE=/usr/bin/brave-browser
 
 alias live-dl='/home/pedro/programacao/live-dl/live-dl'
 alias ngrok='~/ngrok'
@@ -149,3 +155,4 @@ alias grun='java org.antlr.v4.gui.TestRig'
 alias la="exa -la"
 alias l="exa -la"
 eval "$(zoxide init zsh)"
+alias icat="kitty +kitten icat"
