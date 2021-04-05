@@ -14,6 +14,7 @@ endif
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
@@ -75,6 +76,7 @@ Plug 'romgrk/barbar.nvim'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
 
@@ -358,4 +360,5 @@ require('telescope').setup {
     color_devicons = true,
   }
 }
+require('gitsigns').setup()
 EOF
