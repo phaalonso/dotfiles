@@ -5,6 +5,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall
 endif
 
+highlight Comment cterm=italic gui=italic
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
