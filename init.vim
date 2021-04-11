@@ -10,7 +10,9 @@ Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 Plug 'neovim/nvim-lspconfig'
+"Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
+Plug 'nvim-lua/completion-nvim'
 
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
@@ -92,12 +94,10 @@ let g:gitgutter_async=0
 " Coc configuration ---------------------------
 
 "let g:coc_global_extensions = [
-"\ 'coc-dictionary',
 "\ 'coc-json', 
 "\ 'coc-angular',
 "\ 'coc-snippets',
 "\ 'coc-lists',
-"\ 'coc-tsserver',
 "\ 'coc-react-refactor',
 "\ 'coc-sql',
 "\ 'coc-html',
@@ -106,13 +106,9 @@ let g:gitgutter_async=0
 ""\ 'coc-css',
 ""\ 'coc-cssmodules',
 ""\ 'coc-java',
-""\ 'coc-discord-neovim',
 ""\ 'coc-elixir',
-""\ 'coc-phpactor',
 ""\ 'coc-rls',
 "\ 'coc-json',
-"\ 'coc-go',
-"\ 'coc-flutter'
 "\ ]
 
 "if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
@@ -124,83 +120,6 @@ let g:gitgutter_async=0
 "endif
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-"nmap <silent> [g <Plug>(coc-diagnostic-prev)
-"nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-"" IDE like experiende shortcuts
-"nmap <silent> gd <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gi <Plug>(coc-implementation)
-"nmap <silent> gr <Plug>(coc-references)
-
-"" Applying codeAction to the selected region.
-"" Example: `<leader>aap` for current paragraph
-"xmap <silent> <leader>a  <Plug>(coc-codeaction-selected)
-"nmap <silent> <leader>a  <Plug>(coc-codeaction-selected)
-
-"" Remap keys for applying codeAction to the current buffer.
-"nmap <leader>ac  <Plug>(coc-codeaction)
-"" Apply AutoFix to problem on the current line.
-"nmap <leader>qf  <Plug>(coc-fix-current)
-
-"" Mappings for CoCList
-"" Show all diagnostics.
-"nnoremap <silent> <space>d :<C-u>CocList diagnostics<cr>
-"" Find symbol of current document.
-"nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-"" Search workspace symbols.
-"nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-"" Do default action for next item.
-"nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-"" Do default action for previous item.
-"nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-"" Resume latest coc list.
-"nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-"" Show documentation of iten in cursor position
-"nnoremap <silent> K :call CocAction('doHover')<CR>
-
-""function! s:show_hover_doc()
-  ""call timer_start(500, 'show_documentation')
-""endfunction
-
-""autocmd CursorHoldI * :call <SID>show_hover_doc()
-""autocmd CursorHold * :call <SID>show_hover_doc()
-
-"function! s:show_documentation()
-  "if (index(['vim','help'], &filetype) >= 0)
-    "execute 'h '.expand('<cword>')
-  "else
-    "call CocAction('doHover')
-  "endif
-"endfunction
-
-"" Symbol renaming.
-"nmap <leader>rn <Plug>(coc-rename)
-
-"" Show sugestions
-"inoremap <silent><expr> <c-space> coc#refresh()
-
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-""" Tab select the sugestion, use <C-n> and <C-p> to navigate
-"inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
-
-"function! s:check_back_space() abort
-  "let col = col('.') - 1
-  "return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
-
-"let g:coc_snippet_next = '<tab>'
-
-"" Formatting selected code.
-"xmap <leader>f  <Plug>(coc-format-selected)
-"nmap <leader>f  <Plug>(coc-format-selected)
-
-"command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 "Vim-fugitive
 nmap <silent> <leader>gs :Git<CR>
