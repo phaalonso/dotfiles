@@ -1,8 +1,6 @@
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
     silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd!
-    autocmd VimEnter * PlugInstall
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim autocmd!  autocmd VimEnter * PlugInstall
 endif
 
 highlight Comment cterm=italic gui=italic
@@ -10,12 +8,12 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
+Plug 'vigoux/LanguageTool.nvim'
+
 Plug 'cohama/lexima.vim'
 
 Plug 'neovim/nvim-lspconfig'
-"Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/nvim-compe'
-Plug 'nvim-lua/completion-nvim'
 
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
@@ -82,6 +80,11 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 call plug#end()
 
+let g:languagetool_server='$HOME/programacao/LanguageTool-5.3/languagetool-server.jar --http'
+
+hi LanguageToolGrammarError  guisp=blue gui=undercurl guifg=NONE guibg=NONE ctermfg=white ctermbg=blue term=underline cterm=none
+hi LanguageToolSpellingError guisp=red  gui=undercurl guifg=NONE guibg=NONE ctermfg=white ctermbg=red  term=underline cterm=none
+
 let g:indentLine_enabled = 0
 let g:indentLine_char = '|'
 
@@ -98,34 +101,6 @@ highlight GitGutterChange guifg=#96E1EF
 let g:gitgutter_async=0
 
 let g:lexima_enable_basic_rules = 1
-
-" Coc configuration ---------------------------
-
-"let g:coc_global_extensions = [
-"\ 'coc-json', 
-"\ 'coc-angular',
-"\ 'coc-snippets',
-"\ 'coc-lists',
-"\ 'coc-react-refactor',
-"\ 'coc-sql',
-"\ 'coc-html',
-"\ 'coc-emmet',
-"\ 'coc-python',
-""\ 'coc-css',
-""\ 'coc-cssmodules',
-""\ 'coc-java',
-""\ 'coc-elixir',
-""\ 'coc-rls',
-"\ 'coc-json',
-"\ ]
-
-"if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
-  "let g:coc_global_extensions += ['coc-prettier']
-"endif
-
-"if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
-  "let g:coc_global_extensions += ['coc-eslint']
-"endif
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
@@ -201,21 +176,6 @@ nnoremap <silent> <A-.> :BufferNext<CR>
 nnoremap <silent> <A-c> :BufferClose<CR>
 
 tnoremap <Esc> <C-\><C-n>
-" Transparency
-"au ColorScheme * hi Normal ctermbg=none guibg=none
-"au ColorScheme myspecialcolors hi Normal ctermbg=blue guibg=blue
-
-" use tab to trigger completion and navigate to the next item
-"function! s:check_back_space() abort
-	"let col = col('.') - 1
-	"return !col || getline('.')[col - 1] =~ '\s'
-"endfunction
-
-"inoremap <silent><expr> <Tab>
-	"\ pumvisible() ? "\<C-n>" :
-	"\ <SID>check_back_space() ? "\<Tab>" :
-	"\ kite#completion#autocomplete()
-
 
 colorscheme sonokai
 let g:airline_theme='sonokai'
@@ -253,7 +213,11 @@ nnoremap <F8> : call Toggle_transparent()<CR>
 
 vnoremap <leader>p "_dP
 
+" Set completeopt to have a better completion experience
 set completeopt=menuone,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
 set omnifunc=v:lua.vim.lsp.omnifunc
 
 " LSP config (the mappings used in the default file don't quite work right)
@@ -385,15 +349,44 @@ local on_attach = function(client, bufnr)
   end
 end
 
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-local servers = { "pyright", "rust_analyzer", "tsserver", "html", "gopls", "tsserver" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
-end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+-- Use a loop to conveniently both setup defined servers 
+-- and map buffer local keybindings when the language server attaches
+local servers = { "pyright", "rust_analyzer", "tsserver", "gopls", "tsserver" }
+for _, lsp in ipairs(servers) do
+	nvim_lsp[lsp].setup { 
+		on_attach = on_attach,
+		capabilities = capabilities
+	}
+end
+
+require'lspconfig'.html.setup{
+    cmd = { "html-languageserver", "--stdio" },
+    filetypes = { "html" },
+    init_options = {
+      configurationSection = { "html", "css", "javascript" },
+      embeddedLanguages = {
+        css = true,
+        javascript = true
+      }
+    },
+    settings = {},
+	on_attach = function(client)
+		client.resolved_capabilities.document_formatting = false
+		on_attach(client)
+	end
+}
+
+require'lspconfig'.cssls.setup{
+  on_attach = function(client)
+    client.resolved_capabilities.document_formatting = false
+    on_attach(client)
+  end
+}
+  
 
 local t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
