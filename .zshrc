@@ -29,14 +29,7 @@ ZSH_THEME="robbyrussell"
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+ export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
@@ -77,6 +70,8 @@ plugins=(
    zsh-syntax-highlighting
    docker
    docker-compose
+   fzf-docker
+   gh
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -114,6 +109,7 @@ ex ()
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export EDITOR='nvim'
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -131,28 +127,61 @@ ex ()
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
-export SDKMAN_DIR="/home/pedro/.sdkman"
-[[ -s "/home/pedro/.sdkman/bin/sdkman-init.sh" ]] && source "/home/pedro/.sdkman/bin/sdkman-init.sh"
-
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:/home/pedro/go/bin
-export PATH=$PATH:/home/pedro/.cargo/bin
-export PATH=$PATH:/home/pedro/programacao/flutter/bin
+ alias zshconfig="mate ~/.zshrc"
+ alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export CHROME_EXECUTABLE=/usr/bin/brave-browser
 
 alias live-dl='/home/pedro/programacao/live-dl/live-dl'
-alias ngrok='~/ngrok'
-alias faculdade='cd ~/programacao/faculdade'
 export CLASSPATH=".:/usr/local/lib/antlr-4.9.1-complete.jar:$CLASSPATH"
-alias antlr4='java -jar /usr/local/lib/antlr-4.9.1-complete.jar'
-alias grun='java org.antlr.v4.gui.TestRig'
 alias la="exa -la"
 alias l="exa -la"
 eval "$(zoxide init zsh)"
 alias icat="kitty +kitten icat"
+alias mat='cd /home/pedro/programacao/faculdade/ && cd $(ls -d */ | fzf)'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/pedro/
+export PATH=$PATH:/home/pedro/.local/bin
+export PATH=$PATH:/home/pedro/go/bin
+export PATH=$PATH:/home/pedro/.cargo/bin
+export PATH=$PATH:/home/pedro/programacao/flutter/bin
+export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH="$(yarn global bin):$PATH"
+
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
+
+# CTRL-T's command
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# ALT-C's command
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
+
+export FZF_DEFAULT_OPTS="
+--layout=reverse
+--info=inline
+--height=80%
+--multi
+--preview-window=:hidden
+--preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+--bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
+--bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
+--bind 'ctrl-v:execute(code {+})'
+"
+
+autoload -Uz compinit
+compinit
+# Completion for kitty
+kitty + complete setup zsh | source /dev/stdin
+alias ssh="kitty +kitten ssh"
