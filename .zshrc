@@ -71,6 +71,7 @@ plugins=(
    docker
    docker-compose
    fzf-docker
+   fd
    gh
 )
 
