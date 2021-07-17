@@ -140,6 +140,8 @@ alias l="exa -la"
 eval "$(zoxide init zsh)"
 alias icat="kitty +kitten icat"
 alias mat='cd /home/pedro/programacao/faculdade/ && cd $(ls -d */ | fzf)'
+alias config='cd /home/pedro/.dotfiles/ && nvim $(fd -H -E .git -E .gitignore -t f -t l | fzf)'
+alias open='xdg-open'
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
