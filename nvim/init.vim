@@ -6,10 +6,12 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
 
-
+Plug 'yamatsum/nvim-nonicons'
+Plug 'folke/todo-comments.nvim'
 Plug 'chr4/nginx.vim'
 Plug 'folke/zen-mode.nvim'
 Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
+Plug 'windwp/nvim-ts-autotag'
 
 
 Plug 'jbgutierrez/vim-better-comments'
@@ -36,10 +38,10 @@ Plug 'thosakwe/vim-flutter'
 Plug 'lukas-reineke/indent-blankline.nvim'
 
 "Plug 'mhinz/vim-startify'
-Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline'
 
 "Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'arcticicestudio/nord-vim'
+Plug 'shaunsingh/nord.nvim'
 Plug 'sainnhe/sonokai'
 Plug 'joshdick/onedark.vim'
 Plug 'jacoborus/tender.vim'
@@ -47,6 +49,11 @@ Plug 'rakr/vim-two-firewatch'
 Plug 'morhetz/gruvbox'
 Plug 'mhartington/oceanic-next'
 Plug 'adrian5/oceanic-next-vim'
+Plug 'marko-cerovac/material.nvim'
+Plug 'ayu-theme/ayu-vim'
+
+Plug 'jbyuki/venn.nvim'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -94,7 +101,7 @@ Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
-"Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 call plug#end()
 
 " }}}
@@ -184,10 +191,10 @@ set smartindent     "Automatically inserts indentation in some cases
 
 set mmp=2000000
 
-let g:airline_powerline_fonts = 1
-let g:airline_detect_whitespace=0
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline_powerline_fonts = 1
+"let g:airline_detect_whitespace=0
+"let g:airline#extensions#whitespace#enabled = 0
+"let g:airline#extensions#tabline#enabled = 1
 
 " NerdTree ----------------------------------------------------------------------------- {{{
 if !exists("nerd_map")
@@ -264,18 +271,29 @@ set background=dark " or light if you prefer the light version
 "let g:oceanic_next_terminal_italic = 1
 "colo OceanicNext
 
-let g:airline_theme='oceanicnext'
-let g:oceanic_for_polyglot = 1
-let g:oceanic_italic_comments = 1
-colo oceanicnext
+"" Example config in Vim-Script
+"let g:material_style = 'deep ocean'
+"let g:material_italic_comments = 1
+"let g:material_italic_keywords = 1
+"let g:material_italic_functions = 1
+"let g:material_contrast = 1
+
+"" Load the colorsheme
+"colorscheme material
+
+"let ayucolor="light"  " for light version of theme
+"let ayucolor="mirage" " for mirage version of theme
+let ayucolor="dark"   " for dark version of theme
+colorscheme ayu
 
 " }}}
 
 "Clipboar yank config
 vmap Y "+y
 vmap P "+p
-"vmap <C-c> "+y
-"vmap <C-v> "+p
+
+nnoremap <silent> <F10>  :set virtualedit=all<CR>
+tnoremap <silent> <F10>  <C-\><C-n>:set virtualedit=all<CR>
 
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
@@ -288,8 +306,6 @@ tnoremap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
 au BufRead,BufNewFile *.ino,*.pde set filetype=cpp
 command! Config execute ":e ~/.config/nvim/init.vim"
 command! Python execute "terminal python3 %"
-
-autocmd FileType elixir setlocal formatprg=mix\ format\ -
 
 " Transparent ------------------------------------------------------------------------------------------- {{{
 let t:is_transparent = 0
@@ -308,15 +324,6 @@ nnoremap <F8> : call Toggle_transparent()<CR>
 
 " Avoid showing message extra message when using completion
 set shortmess+=c
-"set omnifunc=v:lua.vim.lsp.omnifunc
-
-" LSP config (the mappings used in the default file don't quite work right)
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <C-k> <CR>
-"nnoremap <silent> <C-n> <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-"nnoremap <silent> <C-p> <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-"
 
 let g:lexima_no_default_rules = v:true
 call lexima#set_default_rules()
@@ -336,102 +343,133 @@ require('completion')
 require('treesitter')
 require('diagnosticls')
 require('_telescope')
+require('_galaxyline')
 
 require('lspsaga').init_lsp_saga()
 
 require('gitsigns').setup()
 
+require('todo-comments').setup()
+
+-- LSP CONFIGS {{{
 local nvim_lsp = require'lspconfig'
 
 local on_attach = function(client, bufnr)
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-	local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-	buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-	-- Mappings.
-	local opts = { noremap=true, silent=true }
-	buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	buf_set_keymap('n', 'K', ':Lspsaga hover_doc<CR>', opts)
-	buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	buf_set_keymap('n', '<C-k>', ':Lspsaga signature_help<CR>', opts)
-	buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-	buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-	buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-	buf_set_keymap('n', '<space>ca', ':Lspsaga code_action<CR>', opts)
-	buf_set_keymap('v', '<space>ca', ':Lspsaga range_code_action<CR>', opts)
-	buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-	buf_set_keymap('n', '<space>rn', ':Lspsaga rename<CR>', opts)
-	buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-	buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-	buf_set_keymap('n', '[d', ':Lspsaga diagnostic_jump_prev<CR>', opts)
-	buf_set_keymap('n', ']d', ':Lspsaga diagnostic_jump_next<CR>', opts)
-	buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+   -- Mappings.
+   local opts = { noremap=true, silent=true }
+   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+   buf_set_keymap('n', 'K', ':Lspsaga hover_doc<CR>', opts)
+   buf_set_keymap('n', '<C-k>', ':Lspsaga signature_help<CR>', opts)
+   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+   buf_set_keymap('n', '<space>ca', ':Lspsaga code_action<CR>', opts)
+   buf_set_keymap('v', '<space>ca', ':Lspsaga range_code_action<CR>', opts)
+   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+   buf_set_keymap('n', '<space>rn', ':Lspsaga rename<CR>', opts)
+   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+   buf_set_keymap('n', '[d', ':Lspsaga diagnostic_jump_prev<CR>', opts)
+   buf_set_keymap('n', ']d', ':Lspsaga diagnostic_jump_next<CR>', opts)
+   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
 
-	buf_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-	buf_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-	buf_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-	buf_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+   buf_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+   buf_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+   buf_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+   buf_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 
-	-- Map compe confirm and complete functions
-	buf_set_keymap('i', '<cr>', 'compe#confirm("<cr>")', { expr = true })
-	buf_set_keymap('i', '<c-space>', 'compe#complete()', { expr = true })
+   -- Map compe confirm and complete functions
+   buf_set_keymap('i', '<cr>', 'compe#confirm("<cr>")', { expr = true })
+   buf_set_keymap('i', '<c-space>', 'compe#complete()', { expr = true })
 
-	-- Set some keybinds conditional on server capabilities
-	if client.resolved_capabilities.document_formatting then
-		buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-	end
-	if client.resolved_capabilities.document_range_formatting then
-		buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-	end
+   -- Set some keybinds conditional on server capabilities
+   if client.resolved_capabilities.document_formatting then
+	   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+   end
+   if client.resolved_capabilities.document_range_formatting then
+   buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+   end
 
-	-- Set autocommands conditional on server_capabilities
-	if client.resolved_capabilities.document_highlight then
-		vim.api.nvim_exec([[
-		hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-		hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-		hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-		augroup lsp_document_highlight
-			autocmd! * <buffer>
-			autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-			autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-		augroup END
-		]], false)
-	end
+   -- Set autocommands conditional on server_capabilities
+   if client.resolved_capabilities.document_highlight then
+   vim.api.nvim_exec([[
+   hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+   hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+   hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+   augroup lsp_document_highlight
+   	autocmd! * <buffer>
+   	autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+   	autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+   augroup END
+   ]], false)
+   end
 end
+
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+-- }}}
 
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-local servers = { "pyls", "rust_analyzer", "gopls", "tsserver" }
+local servers = { "rust_analyzer", "gopls", "tsserver" }
+
+-- print(on_attach)
+-- print(capabilities)
+-- print(servers)
 
 for _, lsp in ipairs(servers) do
-	nvim_lsp[lsp].setup { 
-		on_attach = on_attach;
-		capabilities = capabilities;
-		flags = {
-			debounce_text_changes = 150;
-		}
-	}
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+   	 capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
 end
+
+nvim_lsp.html.setup {
+	cmd = { "html-languageserver", "--stdio" },
+	filetypes = { "html" },
+	init_options =  {
+		configurationSection = { "html", "css", "javascript" },
+		embeddedLanguages = {
+			css = true,
+			javascript = true,
+		}
+	},
+	on_attach = on_attach,
+	capabilities = capabilities,
+	flags = {
+		debounce_text_changes = 150
+	}
+}
+
 
 -- require('formatter')
 
-nvim_lsp.ccls.setup {
-	init_options = {
-		compilationDatabaseDirectory = "build";
-		index = {
-			threads = 0;
-		};
-		clang = {
-			excludeArgs = { "-frounding-math"} ;
-		};
-	}
-}
+-- nvim_lsp.ccls.setup {
+   -- init_options = {
+   	-- compilationDatabaseDirectory = "build";
+   	-- index = {
+   		-- threads = 0;
+   	-- };
+   	-- clang = {
+   		-- excludeArgs = { "-frounding-math"} ;
+   	-- };
+   -- }
+-- }
+
 
 -- local lspHandler = vim.lsp.handlers 
 -- 
@@ -444,4 +482,3 @@ nvim_lsp.ccls.setup {
 -- lspHandler['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 -- lspHandler['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 EOF
-

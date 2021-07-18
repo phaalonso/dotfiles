@@ -17,4 +17,3 @@ require('telescope').setup{
 	},
 	file_sorter = sorters.get_fzy_sorter,
 }
-
