@@ -13,12 +13,19 @@ Plug 'folke/zen-mode.nvim'
 Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
 Plug 'windwp/nvim-ts-autotag'
 
-
+Plug 'ray-x/lsp_signature.nvim'
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 "Plug 'HerringtonDarkholme/yats.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+" Vim Only
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'vim-test/vim-test'
+Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
+
 Plug 'mhartington/formatter.nvim'
 Plug 'codehearts/mascara-vim'
 
@@ -45,7 +52,6 @@ Plug 'shaunsingh/nord.nvim'
 Plug 'sainnhe/sonokai'
 Plug 'joshdick/onedark.vim'
 Plug 'jacoborus/tender.vim'
-Plug 'rakr/vim-two-firewatch'
 Plug 'morhetz/gruvbox'
 Plug 'mhartington/oceanic-next'
 Plug 'adrian5/oceanic-next-vim'
@@ -102,10 +108,11 @@ Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+
+Plug 'akinsho/flutter-tools.nvim'
 call plug#end()
 
 " }}}
-
 let g:mascara_apply_at_startup = 1
 let g:mascara_italic = [ 'Comment', 'ErrorMsg', 'LineNr' ] " Comments, error messages, line numbers
 
@@ -135,8 +142,6 @@ imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-T
 smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 " }}}
 
-highlight Comment cterm=italic gui=italic
-
 let g:lexima_enable_basic_rules = 1
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
@@ -160,6 +165,8 @@ nnoremap <silent> ;; <Cmd>Telescope help_tags<CR>
 "noremap <Down> <Nop>
 "noremap <Left> <Nop>
 "noremap <Right> <Nop>
+
+let g:dart_style_guide = 2
 
 set termguicolors
 
@@ -201,13 +208,12 @@ if !exists("nerd_map")
 	let nerd_map = 1
 	nnoremap <C-n> :NERDTreeToggle<CR>
 	nnoremap <leader>f  :NERDTreeFind<CR>
+	let NERDTreeQuitOnOpen = 0
+	let NERDTreeAutoDeleteBuffer = 1
+	let NERDTreeDirArrows = 1
+	let g:NERDTreeGitStatusWithFlags = 1
+	let g:NERDTreeIgnore = ['^node_modules$']
 endif
-
-let NERDTreeQuitOnOpen = 0
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeDirArrows = 1
-let g:NERDTreeGitStatusWithFlags = 1
-let g:NERDTreeIgnore = ['^node_modules$']
 
 " Start with nerdtree and curser in another window
 "autocmd VimEnter * NERDTree | wincmd p
@@ -263,28 +269,25 @@ set background=dark " or light if you prefer the light version
 "let g:airline_theme='gruvbox'
 "let g:gruvbox_contrast_dark=soft
 
-"let g:two_firewatch_italics=1
-"colo two-firewatch
-"let g:airline_theme='twofirewatch' " if you have Airline installed and want the associated theme
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
+colo OceanicNext
 
-"let g:oceanic_next_terminal_bold = 1
-"let g:oceanic_next_terminal_italic = 1
-"colo OceanicNext
+" Example config in Vim-Script
+let g:material_style = 'deep ocean'
+let g:material_italic_comments = 1
+let g:material_italic_keywords = 1
+let g:material_italic_functions = 1
+let g:material_contrast = 1
 
-"" Example config in Vim-Script
-"let g:material_style = 'deep ocean'
-"let g:material_italic_comments = 1
-"let g:material_italic_keywords = 1
-"let g:material_italic_functions = 1
-"let g:material_contrast = 1
-
-"" Load the colorsheme
 "colorscheme material
 
 "let ayucolor="light"  " for light version of theme
 "let ayucolor="mirage" " for mirage version of theme
-let ayucolor="dark"   " for dark version of theme
-colorscheme ayu
+"let ayucolor="dark"   " for dark version of theme
+"colorscheme ayu
+
+highlight Comment cterm=italic gui=italic
 
 " }}}
 
@@ -351,8 +354,11 @@ require('gitsigns').setup()
 
 require('todo-comments').setup()
 
+require "lsp_signature".setup()
+
 -- LSP CONFIGS {{{
 local nvim_lsp = require'lspconfig'
+local handlers = vim.lsp.handlers 
 
 local on_attach = function(client, bufnr)
 
@@ -367,8 +373,7 @@ local on_attach = function(client, bufnr)
    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-   buf_set_keymap('n', 'K', ':Lspsaga hover_doc<CR>', opts)
-   buf_set_keymap('n', '<C-k>', ':Lspsaga signature_help<CR>', opts)
+   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
    buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
    buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
    buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -412,6 +417,10 @@ local on_attach = function(client, bufnr)
    augroup END
    ]], false)
    end
+
+   -- local pop_opts = { border = "rounded", max_width = 85 }
+   -- handlers["textDocument/hover"] = vim.lsp.with(handlers.hover, pop_opts)
+   -- handlers["textDocument/signatureHelp"] = vim.lsp.with(handlers.signature_help, pop_opts)
 end
 
 
@@ -438,6 +447,15 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+nvim_lsp.pyright.setup{
+	cmd = { "pyright-langserver", "--stdio" },
+	on_attach = on_attach,
+	capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    },
+}
+
 nvim_lsp.html.setup {
 	cmd = { "html-languageserver", "--stdio" },
 	filetypes = { "html" },
@@ -456,19 +474,37 @@ nvim_lsp.html.setup {
 }
 
 
--- require('formatter')
+require('_formatter')
 
--- nvim_lsp.ccls.setup {
-   -- init_options = {
-   	-- compilationDatabaseDirectory = "build";
-   	-- index = {
-   		-- threads = 0;
-   	-- };
-   	-- clang = {
-   		-- excludeArgs = { "-frounding-math"} ;
-   	-- };
-   -- }
--- }
+nvim_lsp.ccls.setup {
+   init_options = {
+	   compilationDatabaseDirectory = "build";
+	   index = {
+		   threads = 0;
+	   };
+	   clang = {
+		   excludeArgs = { "-frounding-math"} ;
+	   };
+   }
+}
+
+require('flutter-tools').setup {
+	ui = {
+		-- the border type to use for all floating windows, the same options/formats
+		-- used for ":h nvim_open_win" e.g. "single" | "shadow" | {<table-of-eight-chars>}
+		border = "rounded",
+	},
+	widget_guides = {
+		enabled = false,
+	},
+	lsp = {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		flags = {
+			debounce_text_changes = 150
+		}
+	}
+}
 
 
 -- local lspHandler = vim.lsp.handlers 

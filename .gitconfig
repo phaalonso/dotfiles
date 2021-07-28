@@ -4,3 +4,5 @@
 [user]
 	email = 26033899+phaalonso@users.noreply.github.com
 	name = phaalonso
+[init]
+	defaultBranch = main

@@ -29,3 +29,8 @@ ln -s ~/.dotfiles/coc-settings.json ~/.config/nvim/coc-settings.json
 ln -s ~/.dotfiles/.tmux.conf ~/.tmux.conf
 ```
 
+
+
+![image-20210717222203932](/home/pedro/.config/Typora/typora-user-images/image-20210717222203932.png)
+
+![image-20210717222404453](/home/pedro/.config/Typora/typora-user-images/image-20210717222404453.png)
