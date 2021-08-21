@@ -6,7 +6,8 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'yamatsum/nvim-nonicons'
+Plug 'heavenshell/vim-jsdoc'
+
 Plug 'folke/todo-comments.nvim'
 Plug 'chr4/nginx.vim'
 Plug 'folke/zen-mode.nvim'
@@ -16,7 +17,6 @@ Plug 'windwp/nvim-ts-autotag'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'jbgutierrez/vim-better-comments'
 Plug 'ryanoasis/vim-devicons'
-Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
 "Plug 'HerringtonDarkholme/yats.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
@@ -37,14 +37,13 @@ Plug 'hrsh7th/nvim-compe'
 "Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
 
 Plug 'RishabhRD/popfix'
-Plug 'RishabhRD/nvim-lsputils'
 Plug 'glepnir/lspsaga.nvim'
 
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'thosakwe/vim-flutter'
 Plug 'lukas-reineke/indent-blankline.nvim'
 
-"Plug 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 "Plug 'vim-airline/vim-airline'
 
 "Plug 'dracula/vim', { 'as': 'dracula' }
@@ -55,7 +54,6 @@ Plug 'jacoborus/tender.vim'
 Plug 'morhetz/gruvbox'
 Plug 'mhartington/oceanic-next'
 Plug 'adrian5/oceanic-next-vim'
-Plug 'marko-cerovac/material.nvim'
 Plug 'ayu-theme/ayu-vim'
 
 Plug 'jbyuki/venn.nvim'
@@ -79,13 +77,15 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim', { 'on': 'GV' }
 
 " NerdTree plugins
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'voldikss/vim-floaterm'
 
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 Plug 'tpope/vim-surround'
 
 Plug 'preservim/nerdcommenter'
@@ -97,10 +97,6 @@ Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 
 Plug 'romgrk/barbar.nvim'
 
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-symbols.nvim'
-
 Plug 'rafamadriz/friendly-snippets'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
@@ -110,7 +106,11 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 
 Plug 'akinsho/flutter-tools.nvim'
+
+Plug 'vimwiki/vimwiki'
 call plug#end()
+
+lua require('_packer')
 
 " }}}
 let g:mascara_apply_at_startup = 1
@@ -168,40 +168,36 @@ nnoremap <silent> ;; <Cmd>Telescope help_tags<CR>
 
 let g:dart_style_guide = 2
 
-set termguicolors
+let g:jsdoc_lehre_path='/home/pedro/.yarn/bin/lehre'
 
 " For Neovim 0.1.3 and 0.1.4
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
-" Theme
-syntax on
 set nocompatible
-"Odem de abertura da divisão de tela
-set splitbelow splitright
+syntax on
+set termguicolors
+set splitbelow splitright "Odem de abertura da divisão de tela
+set number relativenumber "Numeração relativa como número da linha presente
+set noexpandtab
+set softtabstop=4
+set tabstop=4
+set shiftwidth=4
+set autoindent      "Keep indentation from previous line
+set smartindent     "Automatically inserts indentation in some cases
+set mmp=2000000
+set foldmethod=indent
+set foldlevel=99
 
-"Numeração relativa como número da linha presente
-set number relativenumber
+augroup filetype_vim
+	autocmd!
+	autocmd FileType vim setlocal foldmethod=marker foldlevel=0
+augroup END
 
 augroup numbertoggle
 	autocmd!
 	autocmd BufEnter,FocusGained,InsertLeave *  if bufname('%') !~ 'NERD_tree_\d\+' | set relativenumber | endif
 	autocmd BufLeave,FocusLost,InsertEnter   *  set norelativenumber
 augroup END
-
-set noexpandtab
-set softtabstop=4
-set tabstop=4
-set shiftwidth=4
-
-set autoindent      "Keep indentation from previous line
-set smartindent     "Automatically inserts indentation in some cases
-
-set mmp=2000000
-
-"let g:airline_powerline_fonts = 1
-"let g:airline_detect_whitespace=0
-"let g:airline#extensions#whitespace#enabled = 0
-"let g:airline#extensions#tabline#enabled = 1
 
 " NerdTree ----------------------------------------------------------------------------- {{{
 if !exists("nerd_map")
@@ -250,14 +246,6 @@ nnoremap <silent> <A-c> :BufferClose<CR>
 
 tnoremap <Esc> <C-\><C-n>
 
-set foldmethod=indent
-set foldlevel=99
-" This will enable code folding.
-" Use the marker method of folding.
-augroup filetype_vim
-	autocmd!
-	autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-augroup END
 
 " Colorscheme -------------------------------------------------------- {{{
 set background=dark " or light if you prefer the light version
@@ -269,9 +257,9 @@ set background=dark " or light if you prefer the light version
 "let g:airline_theme='gruvbox'
 "let g:gruvbox_contrast_dark=soft
 
-let g:oceanic_next_terminal_bold = 1
-let g:oceanic_next_terminal_italic = 1
-colo OceanicNext
+"let g:oceanic_next_terminal_bold = 1
+"let g:oceanic_next_terminal_italic = 1
+"colo OceanicNext
 
 " Example config in Vim-Script
 let g:material_style = 'deep ocean'
@@ -279,8 +267,7 @@ let g:material_italic_comments = 1
 let g:material_italic_keywords = 1
 let g:material_italic_functions = 1
 let g:material_contrast = 1
-
-"colorscheme material
+colorscheme material
 
 "let ayucolor="light"  " for light version of theme
 "let ayucolor="mirage" " for mirage version of theme
@@ -336,185 +323,9 @@ inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
+" hrsh7th/nvim-compe
+let g:compe.source.vim_dadbod_completion = v:true
+
 "---------------------------------------------------------------------
 
-lua << EOF
-
-vim.lsp.set_log_level("debug")
-
-require('completion')
-require('treesitter')
-require('diagnosticls')
-require('_telescope')
-require('_galaxyline')
-
-require('lspsaga').init_lsp_saga()
-
-require('gitsigns').setup()
-
-require('todo-comments').setup()
-
-require "lsp_signature".setup()
-
--- LSP CONFIGS {{{
-local nvim_lsp = require'lspconfig'
-local handlers = vim.lsp.handlers 
-
-local on_attach = function(client, bufnr)
-
-   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-   -- Mappings.
-   local opts = { noremap=true, silent=true }
-   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-   buf_set_keymap('n', '<space>ca', ':Lspsaga code_action<CR>', opts)
-   buf_set_keymap('v', '<space>ca', ':Lspsaga range_code_action<CR>', opts)
-   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-   buf_set_keymap('n', '<space>rn', ':Lspsaga rename<CR>', opts)
-   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-   buf_set_keymap('n', '[d', ':Lspsaga diagnostic_jump_prev<CR>', opts)
-   buf_set_keymap('n', ']d', ':Lspsaga diagnostic_jump_next<CR>', opts)
-   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-
-   buf_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-   buf_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-   buf_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-   buf_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
-   -- Map compe confirm and complete functions
-   buf_set_keymap('i', '<cr>', 'compe#confirm("<cr>")', { expr = true })
-   buf_set_keymap('i', '<c-space>', 'compe#complete()', { expr = true })
-
-   -- Set some keybinds conditional on server capabilities
-   if client.resolved_capabilities.document_formatting then
-	   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-   end
-   if client.resolved_capabilities.document_range_formatting then
-   buf_set_keymap("v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
-   end
-
-   -- Set autocommands conditional on server_capabilities
-   if client.resolved_capabilities.document_highlight then
-   vim.api.nvim_exec([[
-   hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-   hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-   hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-   augroup lsp_document_highlight
-   	autocmd! * <buffer>
-   	autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-   	autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-   augroup END
-   ]], false)
-   end
-
-   -- local pop_opts = { border = "rounded", max_width = 85 }
-   -- handlers["textDocument/hover"] = vim.lsp.with(handlers.hover, pop_opts)
-   -- handlers["textDocument/signatureHelp"] = vim.lsp.with(handlers.signature_help, pop_opts)
-end
-
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
--- }}}
-
--- Use a loop to conveniently both setup defined servers 
--- and map buffer local keybindings when the language server attaches
-local servers = { "rust_analyzer", "gopls", "tsserver" }
-
--- print(on_attach)
--- print(capabilities)
--- print(servers)
-
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-   	 capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-
-nvim_lsp.pyright.setup{
-	cmd = { "pyright-langserver", "--stdio" },
-	on_attach = on_attach,
-	capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    },
-}
-
-nvim_lsp.html.setup {
-	cmd = { "html-languageserver", "--stdio" },
-	filetypes = { "html" },
-	init_options =  {
-		configurationSection = { "html", "css", "javascript" },
-		embeddedLanguages = {
-			css = true,
-			javascript = true,
-		}
-	},
-	on_attach = on_attach,
-	capabilities = capabilities,
-	flags = {
-		debounce_text_changes = 150
-	}
-}
-
-
-require('_formatter')
-
-nvim_lsp.ccls.setup {
-   init_options = {
-	   compilationDatabaseDirectory = "build";
-	   index = {
-		   threads = 0;
-	   };
-	   clang = {
-		   excludeArgs = { "-frounding-math"} ;
-	   };
-   }
-}
-
-require('flutter-tools').setup {
-	ui = {
-		-- the border type to use for all floating windows, the same options/formats
-		-- used for ":h nvim_open_win" e.g. "single" | "shadow" | {<table-of-eight-chars>}
-		border = "rounded",
-	},
-	widget_guides = {
-		enabled = false,
-	},
-	lsp = {
-		on_attach = on_attach,
-		capabilities = capabilities,
-		flags = {
-			debounce_text_changes = 150
-		}
-	}
-}
-
-
--- local lspHandler = vim.lsp.handlers 
--- 
--- lspHandler['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
--- lspHandler['textDocument/references'] = require'lsputil.locations'.references_handler
--- lspHandler['textDocument/definition'] = require'lsputil.locations'.definition_handler
--- lspHandler['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
--- lspHandler['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
--- lspHandler['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
--- lspHandler['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
--- lspHandler['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-EOF
+lua require 'init'
