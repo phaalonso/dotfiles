@@ -140,7 +140,8 @@ alias l="exa -la"
 eval "$(zoxide init zsh)"
 alias icat="kitty +kitten icat"
 alias mat='cd /home/pedro/programacao/faculdade/ && cd $(ls -d */ | fzf)'
-alias config='cd /home/pedro/.dotfiles/ && nvim $(fd -H -E .git -E .gitignore -t f -t l | fzf)'
+alias config='cd /home/pedro/.dotfiles/ && $EDITOR $(fd -H -E .git -E .gitignore -t f -t l | fzf)'
+alias cheat='curl cheat.sh/$1'
 alias open='xdg-open'
 
 export NVM_DIR="$HOME/.nvm"
@@ -188,3 +189,8 @@ compinit
 # Completion for kitty
 kitty + complete setup zsh | source /dev/stdin
 alias ssh="kitty +kitten ssh"
+fpath=(~/.zsh.d/ $fpath)
+fpath=(~/.zsh.d/ $fpath)
+fpath=(~/.zsh.d/ $fpath)
+fpath=(~/.zsh.d/ $fpath)
+fpath=(~/.zsh.d/ $fpath)
