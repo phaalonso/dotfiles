@@ -14,13 +14,11 @@ let g:lexima_enable_basic_rules = 1
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-" Set fzf layout screen
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
-
-" Set <C-p> in normal mode to open FZF
-"noremap <C-p> :FZF <CR>
-nnoremap <silent> <C-p> <cmd>Telescope find_files<cr>
-nnoremap <silent> ;; <Cmd>Telescope help_tags<CR>
+" Telescope configuration
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " Desativa setas do teclado
 "noremap <Up> <Nop>
@@ -55,11 +53,11 @@ augroup filetype_vim
 	autocmd FileType vim setlocal foldmethod=marker foldlevel=0
 augroup END
 
-augroup numbertoggle
-	autocmd!
-	autocmd BufEnter,FocusGained,InsertLeave *  if bufname('%') !~ 'NERD_tree_\d\+' | set relativenumber | endif
-	autocmd BufLeave,FocusLost,InsertEnter   *  set norelativenumber
-augroup END
+"augroup numbertoggle
+	"autocmd!
+	"autocmd BufEnter,FocusGained,InsertLeave *  if bufname('%') !~ 'NERD_tree_\d\+' | set relativenumber | endif
+	"autocmd BufLeave,FocusLost,InsertEnter   *  set norelativenumber
+"augroup END
 
 " Use mouse to select and resize windows, etc.
 
@@ -72,6 +70,8 @@ endif
 let g:VM_maps = {}
 let g:VM_maps['Find Under']         = '<C-d>'   " replace C-n
 let g:VM_maps['Find Subword Under'] = '<C-d>'   " replace visual C-n
+
+nnoremap <C-n> :NvimTreeToggle<CR>
 
 " Barbar.nvim config --------------
 " Magic buffer-picking mode
@@ -99,18 +99,22 @@ set background=dark " or light if you prefer the light version
 "let g:oceanic_next_terminal_italic = 1
 "colo OceanicNext
 
-" Example config in Vim-Script
-let g:material_style = 'deep ocean'
-let g:material_italic_comments = 1
-let g:material_italic_keywords = 1
-let g:material_italic_functions = 1
-let g:material_contrast = 1
-colorscheme material
-
 "let ayucolor="light"  " for light version of theme
 "let ayucolor="mirage" " for mirage version of theme
 "let ayucolor="dark"   " for dark version of theme
 "colorscheme ayu
+
+if has('termguicolors')
+  set termguicolors
+endif
+set background=dark
+
+let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_disable_italic_comment = 0
+let g:gruvbox_material_enable_bold = 1
+
+colorscheme gruvbox-material
 
 highlight Comment cterm=italic gui=italic
 
@@ -130,8 +134,6 @@ tnoremap <silent> <F7>  <C-\><C-n>:FloatermNew<CR>
 nnoremap <silent> <F12> :FloatermToggle<CR>
 tnoremap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
 
-"Configure arquivos .ino e .pde para serem identificados como C++
-au BufRead,BufNewFile *.ino,*.pde set filetype=cpp
 command! Config execute ":e ~/.config/nvim/init.vim"
 command! Python execute "terminal python3 %"
 
@@ -160,3 +162,7 @@ inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 "---------------------------------------------------------------------
+
+let g:wiki_root = '~/notes'
+let g:wiki_filetypes = ['md']
+let g:wiki_link_extension = '.md'

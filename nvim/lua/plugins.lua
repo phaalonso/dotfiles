@@ -8,7 +8,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	execute 'packadd packer.nvim'
 end
 
--- Plug 'dsznajder/vscode-es7-javascript-react-snippets', { 'do': 'yarn install --frozen-lockfile && yarn compile' }
+-- https://github.com/codehearts/mascara-vim
 
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
@@ -21,6 +21,13 @@ require('packer').startup(function()
 		{ 
 			'onsails/lspkind-nvim',
 			config = [[require('config.lspkind')]],
+		},
+		{
+			'glepnir/lspsaga.nvim',
+			require = 'neovim/nvim-lspconfig',
+			config = function()
+				require('lspsaga').init_lsp_saga()
+			end
 		},
 		{ 
 			'hrsh7th/nvim-compe', 
@@ -68,7 +75,11 @@ require('packer').startup(function()
 	use { 
 		'heavenshell/vim-jsdoc', 
 		ft = { 'js', 'jsx', 'ts', 'tsx' },
-		event = 'InsertEnter *',
+		run = 'make install'
+	}
+
+	use {
+		'preservim/vimux'
 	}
 
 	use { 
@@ -76,15 +87,22 @@ require('packer').startup(function()
 		ft = { 'js', 'jsx', 'ts', 'tsx', 'html', 'php' }
 	}
 
-	use { 'shaunsingh/nord.nvim', opt = true }
-	use { 'sainnhe/sonokai', opt = true }
-	use { 'joshdick/onedark.vim', opt = true }
-	use { 'jacoborus/tender.vim', opt = true }
-	use { 'morhetz/gruvbox', opt = true }
-	use { 'sainnhe/gruvbox-material', opt = true }
-	use { 'mhartington/oceanic-next', opt = true }
-	use { 'adrian5/oceanic-next-vim', opt = true }
-	use { 'ayu-theme/ayu-vim', opt = true }
+	-- Themes
+	use { 'shaunsingh/nord.nvim' }
+	use { 'sainnhe/sonokai' }
+	use { 'joshdick/onedark.vim' }
+	use { 'sainnhe/gruvbox-material' }
+	use { 
+		'mhartington/oceanic-next',
+		option = [[
+			vim.g['oceanic-next_terminal_bold'] = 1
+			vim.g['oceanic-next_terminal_italic'] = 1
+		]]
+	}
+
+	use { 'ayu-theme/ayu-vim', option = [[
+		--vim.g.ayu_mirage = true
+	]] }
 
 	-- GIT
 	use { 
@@ -156,7 +174,8 @@ require('packer').startup(function()
 
 	use {
 		'kyazdani42/nvim-tree.lua',
-		requires = 'kyazdani42/nvim-web-devicons'
+		requires = 'kyazdani42/nvim-web-devicons',
+		config = function() require'nvim-tree'.setup {} end
 	}
 
 	use {
@@ -202,8 +221,16 @@ require('packer').startup(function()
         ft = {'javascript', 'typescript', 'css', 'less', 'scss', 'graphql', 'markdown', 'vue', 'html'}
     }
 
-	use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-	use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
+	use { 
+		'nvim-treesitter/nvim-treesitter', 
+		run = ':TSUpdate' 
+	}
+
+	use { 
+		"rcarriga/vim-ultest", 
+		requires = {"vim-test/vim-test"}, 
+		run = ":UpdateRemotePlugins" 
+	}
 
 	use { 
 		'dart-lang/dart-vim-plugin',
@@ -218,6 +245,7 @@ require('packer').startup(function()
 
 	use {
 		'akinsho/flutter-tools.nvim', 
+		disable = true,
 		requires = { 
 			'neovim/nvim-lspconfig',
 			'nvim-lua/plenary.nvim',
@@ -267,10 +295,9 @@ require('packer').startup(function()
 		disabled = true,
 	}
 
-	use { 
-		'styled-components/vim-styled-components', 
-		ft = { 'js', 'jsx', 'ts', 'tsx' },
-		disabled = true,
+	use {
+		'HerringtonDarkholme/yats.vim',
+		ft = { 'js', 'jsx', 'ts', 'tsx' }
 	}
 
 	use { 
@@ -285,8 +312,20 @@ require('packer').startup(function()
 		}
 	}
 
-	-- Profiling
-	use { 'dstein64/vim-startuptime', cmd = 'StartupTime', config = [[vim.g.startuptime_tries = 10]] }
+	use { 
+		'dstein64/vim-startuptime', 
+		cmd = 'StartupTime', 
+		config = [[vim.g.startuptime_tries = 10]] 
+	}
+
+	use { 
+		'dsznajder/vscode-es7-javascript-react-snippets', 
+		run = 'yarn install --frozen-lockfile && yarn compile'
+	}
+
+	use {'pwntester/octo.nvim', config=function()
+	  require"octo".setup()
+	end}
 end)
 
 vim.cmd([[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]])

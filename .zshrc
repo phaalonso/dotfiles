@@ -73,6 +73,9 @@ plugins=(
    fzf-docker
    fd
    gh
+   zsh-autosuggestions
+   npm
+   yarn
 )
 
 source $ZSH/oh-my-zsh.sh
