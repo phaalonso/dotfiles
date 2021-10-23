@@ -10,4 +10,5 @@ function M.has_width_gt(cols)
   return vim.fn.winwidth(0) / 2 > cols
 end
 
+
 return M

@@ -1,20 +1,5 @@
 lua require('init')
 
-let g:indentLine_enabled = 1
-
-" Vsnip ------------------------------------------------------------ {{{
-" Jump forward or backward
-imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-" }}}
-
-let g:lexima_enable_basic_rules = 1
-
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
-" Telescope configuration
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -25,10 +10,6 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 "noremap <Down> <Nop>
 "noremap <Left> <Nop>
 "noremap <Right> <Nop>
-
-let g:dart_style_guide = 2
-
-let g:jsdoc_lehre_path='/home/pedro/.yarn/bin/lehre'
 
 " For Neovim 0.1.3 and 0.1.4
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -66,11 +47,6 @@ if has('mouse')
 	set mousemodel=popup  " Set the behaviour of mouse
 endif
 
-
-let g:VM_maps = {}
-let g:VM_maps['Find Under']         = '<C-d>'   " replace C-n
-let g:VM_maps['Find Subword Under'] = '<C-d>'   " replace visual C-n
-
 nnoremap <C-n> :NvimTreeToggle<CR>
 
 " Barbar.nvim config --------------
@@ -84,41 +60,10 @@ nnoremap <silent> <A-c> :BufferLinePickClose<CR>
 
 tnoremap <Esc> <C-\><C-n>
 
-
-" Colorscheme -------------------------------------------------------- {{{
 set background=dark " or light if you prefer the light version
-
-"colo sonokai
-"let g:airline_theme='sonokai'
-
-"colo gruvbox
-"let g:airline_theme='gruvbox'
-"let g:gruvbox_contrast_dark=soft
-
-"let g:oceanic_next_terminal_bold = 1
-"let g:oceanic_next_terminal_italic = 1
-"colo OceanicNext
-
-"let ayucolor="light"  " for light version of theme
-"let ayucolor="mirage" " for mirage version of theme
-"let ayucolor="dark"   " for dark version of theme
-"colorscheme ayu
-
-if has('termguicolors')
-  set termguicolors
-endif
-set background=dark
-
-let g:gruvbox_material_background = 'medium'
-let g:gruvbox_material_enable_italic = 1
-let g:gruvbox_material_disable_italic_comment = 0
-let g:gruvbox_material_enable_bold = 1
-
-colorscheme gruvbox-material
+set termguicolors
 
 highlight Comment cterm=italic gui=italic
-
-" }}}
 
 "Clipboar yank config
 vmap Y "+y
@@ -133,6 +78,8 @@ nnoremap <silent> <F7>  :FloatermNew<CR>
 tnoremap <silent> <F7>  <C-\><C-n>:FloatermNew<CR>
 nnoremap <silent> <F12> :FloatermToggle<CR>
 tnoremap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
+
+nnoremap <leader>df :lua require('config._telescope').search_dotfiles()<CR>
 
 command! Config execute ":e ~/.config/nvim/init.vim"
 command! Python execute "terminal python3 %"
@@ -152,17 +99,4 @@ endfunction
 nnoremap <F8> : call Toggle_transparent()<CR>
 " }}}
 
-" Avoid showing message extra message when using completion
-"set shortmess+=c 
-"let g:lexima_no_default_rules = v:true call lexima#set_default_rules()
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm(lexima#expand('<LT>CR>', 'i'))
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-"---------------------------------------------------------------------
-
-let g:wiki_root = '~/notes'
-let g:wiki_filetypes = ['md']
-let g:wiki_link_extension = '.md'
+"autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact

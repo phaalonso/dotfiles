@@ -3,13 +3,11 @@ vim.g.material_style = 'deep ocean'
 
 require('material').setup({
 	contrast = true,
-	borders = false,
+	borders = true,
 	italics = {
 		comments = true,
-		strings = false,
 		keywords = true,
 		functions = true,
-		variables = false
 	},
 	contrast_windows = {
 		"terminal",
