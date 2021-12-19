@@ -146,6 +146,7 @@ alias mat='cd /home/pedro/programacao/faculdade/ && cd $(ls -d */ | fzf)'
 alias config='cd /home/pedro/.dotfiles/ && $EDITOR $(fd -H -E .git -E .gitignore -t f -t l | fzf)'
 alias cheat='curl cheat.sh/$1'
 alias open='xdg-open'
+alias v='nvim'
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -192,6 +193,7 @@ compinit
 # Completion for kitty
 kitty + complete setup zsh | source /dev/stdin
 alias ssh="kitty +kitten ssh"
+alias clima="curl wttr.in/Presidente+Venceslau"
 fpath=(~/.zsh.d/ $fpath)
 fpath=(~/.zsh.d/ $fpath)
 fpath=(~/.zsh.d/ $fpath)

@@ -8,75 +8,67 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	execute 'packadd packer.nvim'
 end
 
--- https://github.com/codehearts/mascara-vim
-
 require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
+
+	use {
+		"folke/which-key.nvim",
+		config = function()
+			require("config.whichkey")	  
+		end;
+	}
+
+	use 'hrsh7th/cmp-vsnip'
+	use 'hrsh7th/vim-vsnip'
 
 	use { 
 		{ 
 			'neovim/nvim-lspconfig', 
-			require = {
-				'hrsh7th/nvim-cmp'
-			},
-			config = [[require('config._lsp')]] 
 		},
 		{
 			"folke/trouble.nvim",
 			requires = "kyazdani42/nvim-web-devicons",
 			config = function() 
 				require("trouble").setup {} 
-				vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
 			end
 		},
 		{ 
 			'ray-x/lsp_signature.nvim',
-			config = function()
-				require "lsp_signature".setup {  }
-			end,
 			event = 'InsertEnter *',
+			disable = false
 		},
 		{ 
 			'hrsh7th/nvim-cmp', 
 			requires = { 
 				'neovim/nvim-lspconfig',
 				'hrsh7th/cmp-nvim-lsp',
-				--'hrsh7th/cmp-vsnip',
-				--'hrsh7th/vim-vsnip',
 				'hrsh7th/cmp-nvim-lua',
+				'hrsh7th/cmp-nvim-lsp-document-symbol',
 				'hrsh7th/cmp-path',
 				{ 'onsails/lspkind-nvim', config = [[require('config.lspkind')]] },
+				{ 'petertriho/cmp-git', requires = 'nvim-lua/plenary.nvim' }
 			},
-			config = [[require('config._cmp')]]
 		},
 		{ 'folke/lsp-colors.nvim', opt = true, config = [[require('lsp-colors').setup{}]] }
 	}
 
-	use 'kyazdani42/nvim-web-devicons'
-
-	use { 
-		'jbyuki/venn.nvim', -- Draw ASCII diagramns in Vim
-		event = 'InsertEnter *',
-	} 
-
-	use 'tpope/vim-surround'
-	use 'chr4/nginx.vim'
-
-	--use '/usr/bin/fzf'
-	use 'junegunn/fzf.vim'
-
-	use { 
-		'heavenshell/vim-jsdoc', 
-		ft = { 'js', 'jsx', 'ts', 'tsx' },
-		run = 'make install'
+	use {
+		'jose-elias-alvarez/nvim-lsp-ts-utils',
+		requires = {
+			'neovim/nvim-lspconfig',
+			'nvim-lua/plenary.nvim',
+			'jose-elias-alvarez/null-ls.nvim'
+		}
 	}
+
+	use 'windwp/nvim-autopairs'
+	use 'kyazdani42/nvim-web-devicons'
+	use 'tpope/vim-surround'
+
+	-- use 'chr4/nginx.vim'
+	-- use 'junegunn/fzf.vim'
 
 	use 'preservim/vimux'
-
-	use { 
-		'windwp/nvim-ts-autotag', 
-		ft = { 'js', 'jsx', 'ts', 'tsx', 'html', 'php' }
-	}
 
 	-- Themes
 	use 'shaunsingh/nord.nvim'
@@ -84,65 +76,39 @@ require('packer').startup(function()
 	--use 'joshdick/onedark.vim'
 	use 'sainnhe/gruvbox-material'
 	use 'olimorris/onedarkpro.nvim'
-
-	use { 
-		'mhartington/oceanic-next',
-		option = [[
-		vim.g['oceanic-next_terminal_bold'] = 1
-		vim.g['oceanic-next_terminal_italic'] = 1
-		]]
-	}
+	use 'mhartington/oceanic-next'
+	use 'marko-cerovac/material.nvim'
 
 	use { 'ayu-theme/ayu-vim', option = [[
 	--vim.g.ayu_mirage = true
 	]] }
 
+	
+
 	-- GIT
-	use { 
-		{ 'tpope/vim-fugitive' },
-		{
-			'junegunn/gv.vim',
-			require = 'tpope/vim-fugitive',
-			cmd = {'GV'}
+	use 'tpope/vim-fugitive'
+
+	use {
+		'lewis6991/gitsigns.nvim',
+		requires = {
+			'nvim-lua/plenary.nvim'
 		},
-		{
-			'lewis6991/gitsigns.nvim',
-			requires = {
-				'nvim-lua/plenary.nvim'
-			},
-			config = function()
-				require('gitsigns').setup()
-			end
-		}
+		config = function()
+			require('gitsigns').setup()
+		end
 	}
 
 	use {
 		"folke/todo-comments.nvim",
 		requires = "nvim-lua/plenary.nvim",
 		config = function()
-			require("todo-comments").setup {
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			}
+			require("todo-comments").setup { }
 		end
 	}
 
-	use {
-		"lukas-reineke/indent-blankline.nvim",
-		config = function()
-			require("indent_blankline").setup {
-				char = '▏',
-				buftype_exclude = { "terminal" }
+	use { 'lukas-reineke/indent-blankline.nvim', config = [[require('config.indent')]] }
 
-			}
-		end
-	}
-
-	use {
-		'mg979/vim-visual-multi',
-		branch = 'master'
-	}
+	use 'mg979/vim-visual-multi'
 
 	use 'christoomey/vim-tmux-navigator'
 	use 'voldikss/vim-floaterm'
@@ -151,18 +117,9 @@ require('packer').startup(function()
 
 	use 'cohama/lexima.vim'
 
-
-	use 'mhinz/vim-startify'
-
-	use { 
-		'marko-cerovac/material.nvim', 
-		config = [[require('config._material')]] 
-	}
-
 	use {
 		'kyazdani42/nvim-tree.lua',
 		requires = 'kyazdani42/nvim-web-devicons',
-		config = function() require'nvim-tree'.setup {} end
 	}
 
 	use {
@@ -187,7 +144,7 @@ require('packer').startup(function()
 			'nvim-lua/popup.nvim',
 			'nvim-lua/plenary.nvim',
 		},
-		config = [[require('config._telescope')]]
+		config = [[require('config.telescope')]]
 	}
 
 	use {
@@ -202,6 +159,13 @@ require('packer').startup(function()
 	}
 
 	use { 
+		'windwp/nvim-ts-autotag', 
+		requires = {
+			'nvim-treesitter/nvim-treesitter', 
+		}
+	}
+
+	use { 
 		"rcarriga/vim-ultest", 
 		requires = {"vim-test/vim-test"}, 
 		run = ":UpdateRemotePlugins" 
@@ -213,9 +177,14 @@ require('packer').startup(function()
 		config = [[require('config.bufferline')]],
 	}
 
-	use { 'vimwiki/vimwiki', ft = { 'md' } }
+	use { 'b3nj5m1n/kommentary', config = [[require('config.kommentary')]] }
 
-	use 'preservim/nerdcommenter'
+	use {
+		'JoosepAlviste/nvim-ts-context-commentstring',
+		requires = {
+			'nvim-treesitter/nvim-treesitter'
+		}
+	}
 
 	use 'tpope/vim-eunuch'
 
@@ -229,22 +198,6 @@ require('packer').startup(function()
 			require = 'tpope/vim-dadbod',
 			cmd = { 'DBUI' },
 		}
-	}
-
-	use { 
-		'leafgarland/typescript-vim',
-		ft = { 'js', 'jsx', 'ts', 'tsx' },
-	}
-
-	use { 
-		'peitalin/vim-jsx-typescript',
-		ft = { 'js', 'jsx', 'ts', 'tsx' },
-		require = 'leafgarland/typescript-vim',
-	}
-
-	use {
-		'HerringtonDarkholme/yats.vim',
-		ft = { 'js', 'jsx', 'ts', 'tsx' }
 	}
 
 	use { 
@@ -264,4 +217,11 @@ require('packer').startup(function()
 			require"octo".setup()
 		end
 	}
+
+	use 'matze/vim-move'
+	use 'tyrannicaltoucan/vim-deep-space'
+	use 'AndrewRadev/tagalong.vim'
+
+	use { 'tami5/lspsaga.nvim', config = [[require('config.lspsaga')]] }
+	use { 'glepnir/dashboard-nvim', config = [[require('config.dashboard')]] }
 end)

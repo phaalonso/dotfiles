@@ -1,18 +1,10 @@
 lua require('init')
 
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
 " Desativa setas do teclado
 "noremap <Up> <Nop>
 "noremap <Down> <Nop>
 "noremap <Left> <Nop>
 "noremap <Right> <Nop>
-
-" For Neovim 0.1.3 and 0.1.4
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 set nocompatible
 syntax on
@@ -29,16 +21,7 @@ set mmp=2000000
 set foldmethod=indent
 set foldlevel=99
 
-augroup filetype_vim
-	autocmd!
-	autocmd FileType vim setlocal foldmethod=marker foldlevel=0
-augroup END
-
-"augroup numbertoggle
-	"autocmd!
-	"autocmd BufEnter,FocusGained,InsertLeave *  if bufname('%') !~ 'NERD_tree_\d\+' | set relativenumber | endif
-	"autocmd BufLeave,FocusLost,InsertEnter   *  set norelativenumber
-"augroup END
+hi Folded term=underline
 
 " Use mouse to select and resize windows, etc.
 
@@ -79,10 +62,6 @@ tnoremap <silent> <F7>  <C-\><C-n>:FloatermNew<CR>
 nnoremap <silent> <F12> :FloatermToggle<CR>
 tnoremap <silent> <F12> <C-\><C-n>:FloatermToggle<CR>
 
-nnoremap <leader>df :lua require('config._telescope').search_dotfiles()<CR>
-
-command! Config execute ":e ~/.config/nvim/init.vim"
-command! Python execute "terminal python3 %"
 
 " Transparent ------------------------------------------------------------------------------------------- {{{
 let t:is_transparent = 0

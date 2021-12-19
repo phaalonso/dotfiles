@@ -10,5 +10,7 @@ function M.has_width_gt(cols)
   return vim.fn.winwidth(0) / 2 > cols
 end
 
+function M.buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+function M.buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
 return M
