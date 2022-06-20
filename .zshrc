@@ -199,3 +199,6 @@ fpath=(~/.zsh.d/ $fpath)
 fpath=(~/.zsh.d/ $fpath)
 fpath=(~/.zsh.d/ $fpath)
 fpath=(~/.zsh.d/ $fpath)
+
+export PNPM_HOME="/home/pedro/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
