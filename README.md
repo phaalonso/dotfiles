@@ -1,5 +1,7 @@
 # Dotfiles
 
+![Screenshot 001](./screenshots/2022_06_20_001.png)
+
 ## Steps to setup a new linux using dotfiles
 
 1. Install git
