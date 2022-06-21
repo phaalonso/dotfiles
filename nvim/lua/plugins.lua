@@ -128,10 +128,7 @@ return require('packer').startup(function(use)
     },
     {
         "neovim/nvim-lspconfig",
-        after = "nvim-lsp-installer",
-        config = function()
-          require('lspinstaller')
-        end
+        after = "nvim-lsp-installer"
     },
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
@@ -162,6 +159,13 @@ return require('packer').startup(function(use)
       require("whichkey")
     end
   }
+
+  use {
+    "windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+  }
+
+  use "lukas-reineke/indent-blankline.nvim"
 
   --     ["numToStr/Comment.nvim"] = {
       --module = "Comment",
