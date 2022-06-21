@@ -1,3 +1,9 @@
+local present, impatient = pcall(require, "impatient")
+
+if present then
+   impatient.enable_profile()
+end
+
 require('options')
 
 vim.g.tokyonight_style = "storm"
@@ -46,3 +52,5 @@ require("nvim-tree").setup({
     dotfiles = true,
   },
 })
+
+require('completion')

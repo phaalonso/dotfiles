@@ -43,6 +43,10 @@ return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
+  -- Is using a standard Neovim install, i.e. built from source or using a
+  -- provided appimage.
+  use 'lewis6991/impatient.nvim'
+
   -- Load on an autocommand event
   use {'andymass/vim-matchup', event = 'VimEnter'}
 
@@ -59,7 +63,11 @@ return require('packer').startup(function()
   -- use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
 
   -- Post-install/update hook with neovim command
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 
+    'nvim-treesitter/nvim-treesitter',
+    event = { "BufRead", "BufNewFile" },
+    run = ':TSUpdate' 
+  }
 
 --  use {
     --'glepnir/galaxyline.nvim', branch = 'main', config = function() require'statusline' end,
@@ -95,6 +103,55 @@ return require('packer').startup(function()
   }
 
   -- Plugins can have post-install/update hooks
-  use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
+  use {
+    'iamcco/markdown-preview.nvim',
+    run = 'cd app && yarn install', 
+    cmd = 'MarkdownPreview'
+  }
+
+  use 'rcarriga/nvim-notify'               -- Neovim popup notifications
+
+  use { 'tpope/vim-fugitive' }
+
+  use { 
+    'TimUntersberger/neogit',              -- Git integrated
+    requires = 'nvim-lua/plenary.nvim' 
+  }
+
+  -- Completion
+  use {
+    {
+      "williamboman/nvim-lsp-installer",
+      config = function ()
+        require('lspinstaller')
+      end
+    },
+    {
+        "neovim/nvim-lspconfig",
+        after = "nvim-lsp-installer",
+        config = function()
+          require('lspinstaller')
+        end
+    },
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-vsnip',
+    'hrsh7th/vim-vsnip',
+    {
+      "hrsh7th/nvim-cmp",
+      requires = {
+        {
+          "KadoBOT/cmp-plugins",
+          config = function()
+            require("cmp-plugins").setup({
+              files = { "*.lua" }  -- default
+            })
+          end,
+        },
+      }
+    }
+  }
 
 end)

@@ -9,6 +9,7 @@ set.autochdir = true                         -- Your working directory will alwa
 set.clipboard = "unnamedplus"                -- Copy paste between vim and everything else
 set.incsearch = true                         -- Sets incremental search
 set.shell = "/bin/zsh"                       -- Set your shell to bash or zsh
+set.completeopt=menu,menuone,noselect
 
 vim.cmd [[set nocompatible]]                 -- Disable compatibility to old-time vi
 
