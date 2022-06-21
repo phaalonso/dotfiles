@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
 local set = vim.opt
 

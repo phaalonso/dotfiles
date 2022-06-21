@@ -21,10 +21,11 @@ cmp.setup({
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' }
+    { name = 'path' },
+    { name = 'nvim_lsp', keyword_lenght = 3 },
+    { name = 'luasnip', keyword_lenght = 3 }
   }, {
-    { name = 'buffer' },
+    { name = 'buffer', keyword_lenght = 3 },
   }),
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
@@ -35,6 +36,8 @@ cmp.setup({
     native_menu = false,
   },
 })
+
+print('AKJDLA')
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {

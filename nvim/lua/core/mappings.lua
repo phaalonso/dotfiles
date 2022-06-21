@@ -88,7 +88,6 @@ local a = {
 
 M.lspconfig = {
    -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
-
    n = {
       ["gD"] = {
          function()
