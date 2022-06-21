@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 local set = vim.opt
 
 set.encoding="utf-8"                         -- The encoding displayed

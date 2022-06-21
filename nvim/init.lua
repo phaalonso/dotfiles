@@ -4,7 +4,7 @@ if present then
    impatient.enable_profile()
 end
 
-require('options')
+require('core.options')
 
 vim.g.tokyonight_style = "storm"
 vim.g.tokyonight_transparent = true

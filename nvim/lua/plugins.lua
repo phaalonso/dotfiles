@@ -39,7 +39,7 @@ packer.init {
     },
 }
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -63,10 +63,10 @@ return require('packer').startup(function()
   -- use {'iamcco/markdown-preview.nvim', run = 'cd app && yarn install', cmd = 'MarkdownPreview'}
 
   -- Post-install/update hook with neovim command
-  use { 
+  use {
     'nvim-treesitter/nvim-treesitter',
     event = { "BufRead", "BufNewFile" },
-    run = ':TSUpdate' 
+    run = ':TSUpdate'
   }
 
 --  use {
@@ -137,6 +137,8 @@ return require('packer').startup(function()
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
     'hrsh7th/cmp-vsnip',
     'hrsh7th/vim-vsnip',
     {
@@ -153,5 +155,20 @@ return require('packer').startup(function()
       }
     }
   }
+
+  use {
+    "folke/which-key.nvim",
+    config = function()
+      require("whichkey")
+    end
+  }
+
+  --     ["numToStr/Comment.nvim"] = {
+      --module = "Comment",
+      --keys = { "gc", "gb" },
+      --config = function()
+         --require("plugins.configs.others").comment()
+      --end,
+   --},
 
 end)
