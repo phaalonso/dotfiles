@@ -138,6 +138,7 @@ return require('packer').startup(function(use)
     'saadparwaiz1/cmp_luasnip',
     'hrsh7th/cmp-vsnip',
     'hrsh7th/vim-vsnip',
+    'glepnir/lspsaga.nvim',
     {
       "hrsh7th/nvim-cmp",
       requires = {
@@ -166,6 +167,9 @@ return require('packer').startup(function(use)
   }
 
   use "lukas-reineke/indent-blankline.nvim"
+
+  use 'j-hui/fidget.nvim'
+  use 'editorconfig/editorconfig-vim'
 
   --     ["numToStr/Comment.nvim"] = {
       --module = "Comment",

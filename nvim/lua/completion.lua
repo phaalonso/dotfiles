@@ -145,6 +145,8 @@ lspconfig.util.default_config = vim.tbl_deep_extend(
 
 lspconfig.sumneko_lua.setup({})
 
+lspconfig.clangd.setup({})
+
 lspconfig.jdtls.setup({
     vmargs = {
         "-XX:+UseParallelGC",
@@ -157,3 +159,10 @@ lspconfig.jdtls.setup({
     },
     use_lombok_agent = true
 })
+
+lspconfig.tsserver.setup({})
+
+require"fidget".setup{}
+
+require"lspsaga".init_lsp_saga()
+
