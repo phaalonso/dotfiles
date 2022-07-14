@@ -207,3 +207,5 @@ export PATH="$PNPM_HOME:$PATH"
 # ubuntu sem precisar mapear as outras teclas (fn + F1, F2...)
 # Obs: atalhos comumente usados podem parar de funcionar, devido a necessídade de utilizar o teclado no modo MacOs (Alt + q para inserir a /)
 #setxkbmap -option altwin:swap_alt_win # setxkbmap -option para reverter
+
+sh $HOME/.dotfiles/keychron_k3_v2.sh
