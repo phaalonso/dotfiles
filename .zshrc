@@ -203,9 +203,9 @@ fpath=(~/.zsh.d/ $fpath)
 export PNPM_HOME="/home/pedro/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+export GOPATH="/home/pedro/go"
+
 # Inverte as teclas Alt e Super/Windows. Possível solução para conseguir usar o teclado Keychron no
 # ubuntu sem precisar mapear as outras teclas (fn + F1, F2...)
 # Obs: atalhos comumente usados podem parar de funcionar, devido a necessídade de utilizar o teclado no modo MacOs (Alt + q para inserir a /)
 #setxkbmap -option altwin:swap_alt_win # setxkbmap -option para reverter
-
-sh $HOME/.dotfiles/keychron_k3_v2.sh
