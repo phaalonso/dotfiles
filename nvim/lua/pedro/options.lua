@@ -1,3 +1,4 @@
+vim.o.termguicolors = true
 vim.g.mapleader = " "
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
