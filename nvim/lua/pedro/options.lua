@@ -43,6 +43,7 @@ vim.cmd [[setlocal conceallevel=2]]          -- Syntax conceal for markdown
 vim.cmd [[set noshowmode]]                   -- We don't need to see things like -- INSERT -- anymore
 vim.cmd [[syntax enable]]                    -- Enables syntax highlighing
 vim.cmd [[set t_Co=256]]                     -- Support 256 colors
+vim.cmd [[set et sts=4]]
 
 -----------------
 -- Memory, CPU --

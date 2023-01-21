@@ -64,17 +64,19 @@ return require('packer').startup(function(use)
 		  {'hrsh7th/cmp-buffer'},
 		  {'hrsh7th/cmp-path'},
 		  {'saadparwaiz1/cmp_luasnip'},
-		  {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-nvim-lsp'},
 		  {'hrsh7th/cmp-nvim-lua'},
 
 		  -- Snippets
 		  {'L3MON4D3/LuaSnip'},
 		  {'rafamadriz/friendly-snippets'},
+
+      {'j-hui/fidget.nvim'}
 	  }
   }
 
   use("folke/zen-mode.nvim")
-  use("github/copilot.vim")
+  --use("github/copilot.vim")
 
   use('lukas-reineke/indent-blankline.nvim')
 
@@ -86,4 +88,8 @@ return require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     }
   }
+
+  use 'wakatime/vim-wakatime'
+
+  use 'tpope/vim-surround'
 end)
