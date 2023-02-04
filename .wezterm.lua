@@ -54,6 +54,6 @@ return {
 	},
   jtab_bar_at_bottom = true,
   color_scheme = 'tokyonight',
-  default_prog = { 'pwsh' },
   launch_menu = launch_menu,
+  window_background_opacity = 0.9,
 }

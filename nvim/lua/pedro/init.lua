@@ -1,6 +1,7 @@
 require('pedro.options')
 require('pedro.remap')
 require('pedro.packer')
+require('pedro.statuscolumn')
 
 local augroup = vim.api.nvim_create_augroup
 local PedroGroup = augroup('Pedro', {})

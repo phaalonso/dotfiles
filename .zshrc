@@ -133,3 +133,13 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+alias wip="git add .;git commit -m 'wip' > /dev/null"
+alias wips="git add .;git commit -m 'wip' > /dev/null;git push"
+
+# Add JBang to environment
+alias j!=jbang
+export PATH="$HOME/.jbang/bin:$PATH"
+
+source "$HOME/.cargo/env"
+
+alias luamake=/home/pedro/.config/sumneko/3rd/luamake/luamake

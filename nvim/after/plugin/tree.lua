@@ -26,6 +26,6 @@ require("nvim-tree").setup({
     timeout = 400,
   },
   filters = {
-    dotfiles = true,
+    dotfiles = false,
   },
 })
