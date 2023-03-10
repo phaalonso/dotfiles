@@ -10,11 +10,9 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 
   -- Find installed visual studio version(s) and add their compilation
   -- environment command prompts to the menu
-  for _, vsvers in
-    ipairs(
-      wezterm.glob('Microsoft Visual Studio/20*', 'C:/Program Files (x86)')
-    )
-  do
+  for _, vsvers in ipairs(
+    wezterm.glob('Microsoft Visual Studio/20*', 'C:/Program Files (x86)')
+  ) do
     local year = vsvers:gsub('Microsoft Visual Studio/', '')
     table.insert(launch_menu, {
       label = 'x64 Native Tools VS ' .. year,
@@ -22,36 +20,36 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
         'cmd.exe',
         '/k',
         'C:/Program Files (x86)/'
-          .. vsvers
-          .. '/BuildTools/VC/Auxiliary/Build/vcvars64.bat',
+            .. vsvers
+            .. '/BuildTools/VC/Auxiliary/Build/vcvars64.bat',
       },
     })
   end
 end
 
 return {
+  max_fps = 120,
   font = wezterm.font_with_fallback {
-    'JetBrainsMono NF',
+    'JetBrains Mono',
     'Material Design Icons Desktop',
   },
   --harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
-  --	font_size = 11.5,
-	max_fps = 120,
-	enable_wayland = false,
-	pane_focus_follows_mouse = false,
-	warn_about_missing_glyphs = false,
-	show_update_window = false,
-	check_for_updates = false,
-	line_height = 1,
-	window_decorations = "RESIZE",
-	window_close_confirmation = "NeverPrompt",
-	audible_bell = "Disabled",
-	window_padding = {
-		left = 0,
-		right = 0,
-		top = 0,
-		bottom = 0,
-	},
+ 	font_size = 12,
+  line_height = 1.05,
+  enable_wayland = false,
+  pane_focus_follows_mouse = false,
+  warn_about_missing_glyphs = false,
+  show_update_window = false,
+  check_for_updates = false,
+  window_decorations = "RESIZE",
+  window_close_confirmation = "NeverPrompt",
+  audible_bell = "Disabled",
+  window_padding = {
+    left = 0,
+    right = 0,
+    top = 0,
+    bottom = 0,
+  },
   jtab_bar_at_bottom = true,
   color_scheme = 'tokyonight',
   launch_menu = launch_menu,

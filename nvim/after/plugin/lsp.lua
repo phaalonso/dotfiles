@@ -128,3 +128,66 @@ vim.diagnostic.config({
   virtual_text = true,
   virtual_lines = { only_current_line = true }
 })
+
+require("typescript").setup({})
+
+
+-------------------------
+-- Null ls
+-------------------------
+
+local null_ls = require("null-ls")
+local null_opts = lsp.build_options('null-ls', {})
+
+local diagnostics = null_ls.builtins.diagnostics;
+local formatting = null_ls.builtins.formatting;
+local code_actions = null_ls.builtins.code_actions;
+
+null_ls.setup({
+  on_attach = function(client, bufnr)
+    null_opts.on_attach(client, bufnr)
+
+    -- Format using only null-ls
+    local format_cmd = function(input)
+      vim.lsp.buf.format({
+        id = client.id,
+        timeout_ms = 5000,
+        async = input.bang,
+      })
+    end
+
+    local bufcmd = vim.api.nvim_buf_create_user_command
+    bufcmd(bufnr, 'NullFormat', format_cmd, {
+      bang = true,
+      range = true,
+      desc = 'Format using null-ls'
+    })
+  end,
+  debug = false,
+  debounce = 150,
+  update_in_insert = false,
+  sources = {
+    code_actions.eslint_d,
+    diagnostics.eslint_d.with({
+      diagnostics_format = "[#{s}] #{m}\n(#{c})",
+    }),
+    code_actions.refactoring,
+    code_actions.shellcheck,
+    diagnostics.shellcheck,
+    diagnostics.php,
+    --diagnostics.phpmd,
+    diagnostics.phpstan,
+    diagnostics.todo_comments,
+    formatting.editorconfig_checker,
+    null_ls.builtins.formatting.prettierd,
+    --null_ls.builtins.formatting.stylua,
+    --null_ls.builtins.formatting.shfmt,
+  },
+})
+
+-- Use mason.nvim to facilitate installing null-ls builtins
+require('mason-null-ls').setup({
+  ensure_installed = nil,
+  automatic_installation = true,
+  automatic_setup = false,
+})

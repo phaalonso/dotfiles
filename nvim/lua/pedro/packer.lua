@@ -52,6 +52,7 @@ return require('packer').startup(function(use)
 
   use('williamboman/mason.nvim')
   use('williamboman/mason-lspconfig.nvim')
+  use('jay-babu/mason-null-ls.nvim')
 
   use {
     'VonHeikemen/lsp-zero.nvim',
@@ -76,7 +77,15 @@ return require('packer').startup(function(use)
       { 'j-hui/fidget.nvim' },
 
       { 'onsails/lspkind.nvim' },
-      { "folke/neodev.nvim" }
+      { "folke/neodev.nvim" },
+
+
+      -- Null-ls
+      { 'jose-elias-alvarez/null-ls.nvim',
+        requires = { 'nvim-lua/plenary.nvim' }
+      },
+
+      { "jay-babu/mason-null-ls.nvim" },
     }
   }
 
@@ -167,9 +176,11 @@ return require('packer').startup(function(use)
   }
 
   use {
-    'RRethy/vim-illuminate',
+    'tzachar/local-highlight.nvim',
     config = function()
-      require('illuminate').configure()
+      require('local-highlight').setup({
+        file_types = { 'lua', 'typescript', 'java', 'javascript', 'json' }
+      })
     end
   }
 

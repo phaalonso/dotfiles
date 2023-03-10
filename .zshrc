@@ -2,8 +2,6 @@ export ZSH="/home/pedro/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
- export UPDATE_ZSH_DAYS=13
-
 plugins=(
    git
    colored-man-pages
@@ -19,6 +17,7 @@ plugins=(
    zsh-autosuggestions
    npm
    yarn
+   wakatime
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -58,8 +57,6 @@ export CHROME_EXECUTABLE=/usr/bin/brave-browser
 
 alias live-dl='/home/pedro/programacao/live-dl/live-dl'
 export CLASSPATH=".:/usr/local/lib/antlr-4.9.1-complete.jar:$CLASSPATH"
-alias la="exa -la"
-alias l="exa -la"
 eval "$(zoxide init zsh)"
 alias icat="kitty +kitten icat"
 alias mat='cd /home/pedro/programacao/faculdade/ && cd $(ls -d */ | fzf)'
@@ -79,6 +76,7 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:/root/.cargo/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/programacao/flutter/bin
 export ANDROID_SDK_ROOT=$HOME/Android/Sdk
@@ -122,6 +120,8 @@ fpath=(~/.zsh.d/ $fpath)
 export PNPM_HOME="/home/pedro/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+export PATH="/home/pedro/.emacs.d/bin:$PATH"
+
 export GOPATH="/home/pedro/go"
 
 # Inverte as teclas Alt e Super/Windows. Possível solução para conseguir usar o teclado Keychron no
@@ -135,6 +135,7 @@ fi
 
 alias wip="git add .;git commit -m 'wip' > /dev/null"
 alias wips="git add .;git commit -m 'wip' > /dev/null;git push"
+alias gll="git log --oneline"
 
 # Add JBang to environment
 alias j!=jbang
@@ -143,3 +144,25 @@ export PATH="$HOME/.jbang/bin:$PATH"
 source "$HOME/.cargo/env"
 
 alias luamake=/home/pedro/.config/sumneko/3rd/luamake/luamake
+
+export PATH="~/.composer/vendor/bin:$PATH"
+
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+if hash exa 2>/dev/null; then
+    alias ls='exa'
+    alias l='exa -l --all --group-directories-first --git'
+    alias ll='exa -l --all --all --group-directories-first --git'
+    alias lt='exa -T --git-ignore --level=2 --group-directories-first'
+    alias llt='exa -lT --git-ignore --level=2 --group-directories-first'
+    alias lT='exa -T --git-ignore --level=4 --group-directories-first'
+else
+    alias l='ls -lah'
+    alias ll='ls -alF'
+    alias la='ls -A'
+fi
+
+alias dep='vendor/bin/dep'
+alias a='php artisan'
+
+eval "$(starship init zsh)"
