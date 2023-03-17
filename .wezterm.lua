@@ -35,7 +35,7 @@ return {
   },
   --harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
  	font_size = 12,
-  line_height = 1.05,
+  line_height = 1,
   enable_wayland = false,
   pane_focus_follows_mouse = false,
   warn_about_missing_glyphs = false,
