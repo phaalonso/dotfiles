@@ -8,7 +8,6 @@ plugins=(
    fzf
 #   vi-mode
    sudo
-   zsh-syntax-highlighting
    docker
    docker-compose
    fzf-docker

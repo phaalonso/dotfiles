@@ -29,14 +29,15 @@ local config = {
 	pane_focus_follows_mouse = false,
 	warn_about_missing_glyphs = true,
 	check_for_updates = true,
-	window_decorations = "RESIZE",
 	window_close_confirmation = "NeverPrompt",
+	window_decorations = "NONE",
 	audible_bell = "Disabled",
 	tab_bar_at_bottom = true,
-	color_scheme = "darkhorizon",
+	color_scheme = "tokyonight",
 	window_background_opacity = 0.9,
 	initial_rows = 35,
 	initial_cols = 150,
+	hide_tab_bar_if_only_one_tab = true,
 }
 
 config.launch_menu = launch_menu
