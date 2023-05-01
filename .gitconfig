@@ -7,7 +7,7 @@
 [init]
 	defaultBranch = main
 [core]
-	excludesFile = /home/pedro/.gitignore_global
+	excludesfile = ~/.gitignore.global
   pager = delta # Use delta for diff
 [filter "lfs"]
 	clean = git-lfs clean -- %f

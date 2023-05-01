@@ -21,9 +21,9 @@ window:
     y: 3
 
   dynamic_padding: true
-  #decorations: full
+  decorations: None
   opacity: 0.95
-  #startup_mode: Windowed
+  startup_mode: Windowed
   title: Alacritty
   dynamic_title: true
 
@@ -39,7 +39,7 @@ window:
 font:
   normal:
     family: JetBrainsMono Nerd Font
-    style: Regular
+    style: Medium
 
   bold:
     family: JetBrainsMono Nerd Font

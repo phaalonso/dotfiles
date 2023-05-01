@@ -24,6 +24,8 @@ return require('packer').startup(function(use)
   use({ 'folke/tokyonight.nvim', as = 'tokyonight' })
   use 'AlexvZyl/nordic.nvim'
   use 'sainnhe/sonokai'
+  use 'andreypopp/vim-colors-plain'
+
   use {
     "mcchrish/zenbones.nvim",
     -- Optionally install Lush. Allows for more configuration or extending the colorscheme

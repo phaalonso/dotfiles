@@ -78,7 +78,7 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:/root/.cargo/bin
 export PATH=$PATH:$HOME/.cargo/bin
-export PATH=$PATH:$HOME/programacao/flutter/bin
+export PATH=$PATH:$HOME/bin/flutter/bin
 export ANDROID_SDK_ROOT=$HOME/Android/Sdk
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -87,6 +87,7 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH="$(yarn global bin):$PATH"
 export PATH="/home/pedro/.dotfiles/scripts:$PATH"
+export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
 
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
 
@@ -149,6 +150,8 @@ export PATH="~/.composer/vendor/bin:$PATH"
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 
+export PATH=$PATH:~/Android/Sdk/cmdline-tools/latest/bin
+
 if hash exa 2>/dev/null; then
     alias ls='exa'
     alias l='exa -l --all --group-directories-first --git'
@@ -166,3 +169,29 @@ alias dep='vendor/bin/dep'
 alias a='php artisan'
 
 eval "$(starship init zsh)"
+
+#export ZSH_WAKATIME_PROJECT_DETECTION=true
+
+
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+#alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
+#bindkey -s ^a "nvims\n"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
