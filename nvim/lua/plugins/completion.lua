@@ -1,4 +1,21 @@
 return {
+  -- add symbols-outline
+  {
+    "simrat39/symbols-outline.nvim",
+    cmd = "SymbolsOutline",
+    keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
+    config = true,
+  },
+
+  {
+    "dmmulroy/tsc.nvim",
+    config = function()
+      require("tsc").setup({
+        enable_progress_notifications = true,
+      })
+    end,
+  },
+
   -- add tsserver and setup with typescript.nvim instead of lspconfig
   {
     "neovim/nvim-lspconfig",
