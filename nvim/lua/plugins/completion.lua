@@ -1,4 +1,14 @@
 return {
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end,
+  },
   -- add symbols-outline
   {
     "simrat39/symbols-outline.nvim",
@@ -36,7 +46,6 @@ return {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
         dockerls = {},
         docker_compose_language_service = {},
-        tsserver = {},
         intelephense = {
           ---@type lspconfig.options.intelephense
           init_options = {
@@ -71,20 +80,23 @@ return {
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
-        -- example to setup with typescript.nvim
+        -- Specify * to use this function as a fallback for any server
         tsserver = function(_, opts)
           require("lazyvim.util").on_attach(function(client, buffer)
-            -- Disabling tsserver formatting
             if client.name == "tsserver" then
+              -- stylua: ignore
+              vim.keymap.set("n", "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", { buffer = buffer, desc = "Organize Imports" })
+              -- stylua: ignore
+              vim.keymap.set("n", "<leader>cR", "<cmd>TypescriptRenameFile<CR>", { desc = "Rename File", buffer = buffer })
+
+              -- stop tsserver from handling formatting
               client.server_capabilities.documentFormattingProvider = false
               client.server_capabilities.documentRangeFormattingProvider = false
             end
           end)
-
           require("typescript").setup({ server = opts })
           return true
         end,
-        -- Specify * to use this function as a fallback for any server
         -- ["*"] = function(server, opts) end,
         intelephense = function(_, opts)
           require("lazyvim.util").on_attach(function(client, buffer)
