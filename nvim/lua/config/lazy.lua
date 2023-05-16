@@ -16,6 +16,12 @@ require("lazy").setup({
         colorscheme = "catppuccin",
       },
     },
+    -- {
+    --   "jose-elias-alvarez/null-ls.nvim",
+    --   opts = function(_, opts)
+    --     table.insert(opts.sources, "null_ls.builtins.formatting.phpcbf")
+    --   end,
+    -- },
     -- import any extras modules here
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
@@ -45,22 +51,6 @@ require("lazy").setup({
         "tutor",
         "zipPlugin",
       },
-    },
-  },
-  --TODO testing tsc.nvim
-  {
-    "rcarriga/nvim-notify",
-    init = function()
-      vim.notify = require("notify")
-    end,
-    opts = {
-      timeout = 5000,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
     },
   },
 })

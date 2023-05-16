@@ -16,7 +16,6 @@ plugins=(
    zsh-autosuggestions
    npm
    yarn
-   wakatime
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -169,9 +168,6 @@ alias a='php artisan'
 
 eval "$(starship init zsh)"
 
-#export ZSH_WAKATIME_PROJECT_DETECTION=true
-
-
 alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
 #alias nvim-kick="NVIM_APPNAME=kickstart nvim"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
@@ -194,3 +190,4 @@ function nvims() {
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+export GOPATH=$HOME/go

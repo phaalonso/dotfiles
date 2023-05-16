@@ -1,5 +1,24 @@
 return {
   {
+    "folke/trouble.nvim",
+    -- opts will be merged with the parent spec
+    opts = { use_diagnostic_signs = true },
+  },
+  {
+    "olexsmir/gopher.nvim",
+    dependencies = { -- dependencies
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    ft = "go",
+    config = function()
+      require("gopher").setup({})
+    end,
+    build = function()
+      vim.cmd([[silent! GoInstallDeps]])
+    end,
+  },
+  {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
@@ -66,6 +85,19 @@ return {
             },
           },
         },
+        gopls = {
+          cmd = { "gopls" },
+          filetypes = { "go", "gomod", "gowork", "gotmpl" },
+          settings = {
+            gopls = {
+              completeUnimported = true,
+              usePlaceholders = true,
+              analyses = {
+                unusedparams = true,
+              },
+            },
+          },
+        },
         phpactor = {
           init_options = {
             ["language_server_phpstan.enabled"] = false,
@@ -102,8 +134,8 @@ return {
           require("lazyvim.util").on_attach(function(client, buffer)
             -- Intelephense
             if client.name == "intelephense" then
-              client.server_capabilities.documentFormattingProvider = false -- Formatting handled by null-ls
-              client.server_capabilities.documentRangeFormattingProvider = false -- Formatting handled by null-ls
+              client.server_capabilities.documentFormattingProvider = true -- Formatting handled by null-ls
+              client.server_capabilities.documentRangeFormattingProvider = true -- Formatting handled by null-ls
 
               client.server_capabilities.codeActionProvider = false -- Handled by phpactor
               client.server_capabilities.renameProvider = false -- Handled by phpactor
