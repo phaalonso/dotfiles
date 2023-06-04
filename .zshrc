@@ -83,8 +83,8 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH="$(yarn global bin):$PATH"
-export PATH="/home/pedro/.dotfiles/scripts:$PATH"
+#export PATH="$(yarn global bin):$PATH"
+export PATH="/home/pedro/dotfiles/scripts:$PATH"
 export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
 
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
@@ -191,3 +191,38 @@ function nvims() {
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 export GOPATH=$HOME/go
+
+
+fzf-git-branch() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    git branch --color=always --all --sort=-committerdate |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+        sed "s/.* //"
+}
+
+fzf-git-checkout() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    local branch
+
+    branch=$(fzf-git-branch)
+    if [[ "$branch" = "" ]]; then
+        echo "No branch selected."
+        return
+    fi
+
+    # If branch name starts with 'remotes/' then it is a remote branch. By
+    # using --track and a remote branch name, it is the same as:
+    # git checkout -b branchName --track origin/branchName
+    if [[ "$branch" = 'remotes/'* ]]; then
+        git checkout --track $branch
+    else
+        git checkout $branch;
+    fi
+}
+
+alias gb='fzf-git-branch'
+alias gco='fzf-git-checkout'

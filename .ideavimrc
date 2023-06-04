@@ -1,0 +1,46 @@
+let mapleader=" "
+set clipboard+=unnamed
+set clipboard+=ideaput
+nnoremap \e :e ~/.ideavimrc<CR>
+nnoremap \r :action IdeaVim.ReloadVimRc.reload<CR>
+
+nnoremap <c-z> :action ToggleDistractionFreeMode<CR>
+nnoremap <c-t> :action ActivateTerminalToolWindow<CR>
+nnoremap <leader>t :action Terminal.OpenInTerminal<CR>
+nnoremap <TAB> :action PreviousTab<CR> nnoremap <s-TAB> :action NextTab<CR> nnoremap <Leader>en :action EditSourceInNewWindow<CR>
+nnoremap <Leader>n :action NextWindow<CR>
+nnoremap <Leader>q :action CloseContent<CR>
+nnoremap <Leader>qa :action CloseAllEditors<CR>
+
+nnoremap <leader>c :action CommentByLineComment<CR>
+vnoremap <leader>c :action CommentByLineComment<CR>
+nnoremap <leader>r :action Refactorings.QuickListPopupAction<CR>
+nnoremap <Leader>=  :action ReformatCode<CR>
+nnoremap <leader>o :action OptimizeImports<CR>
+
+nnoremap ge :action GotoNextError<CR>
+nnoremap gE :action GotoPreviousError<CR>
+
+" Extensions
+set surround
+"set multiple-cursors
+"set commentary
+"set argtextobj
+"set easymotion
+"set textobj-entire
+"set ReplaceWithRegister
+
+Plug 'preservim/nerdtree`
+
+""" Common settings ---
+set ideajoin
+set nu
+set relativenumber
+set visualbell
+set noerrorbells
+
+set NERDTree
+let g:NERDTreeMapActiveNode='l'
+let g:NERDTreeMapJumpParent='h'
+
+
