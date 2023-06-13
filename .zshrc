@@ -141,6 +141,7 @@ alias j!=jbang
 export PATH="$HOME/.jbang/bin:$PATH"
 
 source "$HOME/.cargo/env"
+export PATH=$PATH:$HOME/.cargo/bin
 
 alias luamake=/home/pedro/.config/sumneko/3rd/luamake/luamake
 
