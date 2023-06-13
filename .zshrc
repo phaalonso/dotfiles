@@ -226,3 +226,6 @@ fzf-git-checkout() {
 
 alias gb='fzf-git-branch'
 alias gco='fzf-git-checkout'
+
+# Better way to manage dotfiles
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
