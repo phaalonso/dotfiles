@@ -34,8 +34,8 @@ ln -s ~/dotfiles/tmux ~/.config/tmux
 
 
 ## Install in a new system
-https://www.atlassian.com/git/tutorials/dotfiles
-https://news.ycombinator.com/item?id=11071754
+ - https://www.atlassian.com/git/tutorials/dotfiles
+ - https://news.ycombinator.com/item?id=11071754
 
 Antes de começar garanta que o alias esteja presente no .bashrc or .zsh:
 ```bash
