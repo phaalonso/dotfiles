@@ -18,6 +18,8 @@ return {
         "vim",
         "c",
         "gomod",
+        "php",
+        "phpdoc",
       })
     end,
   },
