@@ -23,6 +23,14 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	end
 end
 
+function scheme_for_appearance(appearance)
+	if appearance:find("Dark") then
+		return "Catppuccin Mocha"
+	else
+		return "Catppuccin Latte"
+	end
+end
+
 local config = {
 	max_fps = 120,
 	enable_wayland = false,
@@ -33,7 +41,7 @@ local config = {
 	window_decorations = "NONE",
 	audible_bell = "Disabled",
 	tab_bar_at_bottom = true,
-	color_scheme = "tokyonight",
+	color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
 	window_background_opacity = 0.9,
 	initial_rows = 35,
 	initial_cols = 150,
