@@ -70,3 +70,7 @@ fi;
 config checkout
 config config status.showUntrackedFiles no
 ```
+
+
+
+Hyperland config baseada em [JaKooLit](https://github.com/JaKooLit?tab=repositories)
