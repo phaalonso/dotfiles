@@ -30,3 +30,8 @@ if [ -d "$HOME/.local/bin" ] ; then
 	PATH=$PATH:/usr/local/go/bin
 fi
 export MANGOHUD=1
+
+
+# Added by Toolbox App
+export PATH="$PATH:/home/pedro/.local/share/JetBrains/Toolbox/scripts"
+

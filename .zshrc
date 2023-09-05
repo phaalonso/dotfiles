@@ -1,6 +1,6 @@
 export ZSH="/home/pedro/.oh-my-zsh"
 
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
 
 plugins=(
    git
@@ -10,10 +10,9 @@ plugins=(
    sudo
    docker
    docker-compose
-   fzf-docker
    fd
    gh
-   zsh-autosuggestions
+   #zsh-autosuggestions
    npm
    yarn
 )
@@ -51,12 +50,12 @@ export EDITOR='nvim'
 alias zshconfig="$EDITOR ~/.zshrc"
 alias ohmyzsh="$EDITOR ~/.oh-my-zsh"
 
-export CHROME_EXECUTABLE=/usr/bin/brave-browser
+export CHROME_EXECUTABLE=/usr/bin/chromium
+#export CHROME_EXECUTABLE=/usr/bin/brave-browser
 
 alias live-dl='/home/pedro/programacao/live-dl/live-dl'
 export CLASSPATH=".:/usr/local/lib/antlr-4.9.1-complete.jar:$CLASSPATH"
 eval "$(zoxide init zsh)"
-alias icat="kitty +kitten icat"
 alias mat='cd /home/pedro/programacao/faculdade/ && cd $(ls -d */ | fzf)'
 alias config='cd /home/pedro/.dotfiles/ && $EDITOR $(fd -H -E .git -E .gitignore -t f -t l | fzf)'
 alias open='xdg-open'
@@ -76,7 +75,7 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:/root/.cargo/bin
 export PATH=$PATH:$HOME/.cargo/bin
-export PATH=$PATH:$HOME/bin/flutter/bin
+export PATH=$PATH:$HOME/fvm/default/bin
 export ANDROID_SDK_ROOT=$HOME/Android/Sdk
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -111,9 +110,6 @@ export FZF_DEFAULT_OPTS="
 
 autoload -Uz compinit
 compinit
-# Completion for kitty
-kitty + complete setup zsh | source /dev/stdin
-#alias ssh="kitty +kitten ssh"
 fpath=(~/.zsh.d/ $fpath)
 
 export PNPM_HOME="/home/pedro/.local/share/pnpm"
