@@ -23,7 +23,12 @@ return {
 
     -- Optional, alternative to nvim-treesitter for syntax highlighting.
     "godlygeek/tabular",
-    "preservim/vim-markdown",
+    {
+      "preservim/vim-markdown",
+      config = function()
+        vim.g.vim_markdown_folding_disabled = 1
+      end,
+    },
   },
   opts = {
     dir = "/home/pedro/Documents/Notes/", -- no need to call 'vim.fn.expand' here
