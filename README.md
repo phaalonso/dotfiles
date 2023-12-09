@@ -18,7 +18,7 @@ echo ".cfg" >> .gitignore
 ```
 Faça o clone do seu dotfiles em um repositório bare:
 ```bash
-git clone --bare <git-repo-url> $HOME/.cfg
+git clone --bare git@github.com:phaalonso/dotfiles.git $HOME/.cfg
 ```
 Configure o alias no shell atual:
 ```bash
