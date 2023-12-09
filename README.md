@@ -55,7 +55,7 @@ config push
 Again as a shortcut not to have to remember all these steps on any new machine you want to setup, you can create a simple script, store it as Bitbucket snippet like I did, create a short url for it and call it like this:
 
 ```bash
-git clone --bare https://bitbucket.org/durdn/cfg.git $HOME/.cfg
+git clone --bare git@github.com:phaalonso/dotfiles.git $HOME/.cfg
 function config {
    /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
 }
